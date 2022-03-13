@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+	<title>Donation Dashboard</title>
+	<link rel="stylesheet" href="../common/common.css">
+	<link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+<div id="dashboard">
+	<div id="tabs">
+		<div class="tab active" id="tab-1">Пожертвования</div>
+		<div class="tab" id="tab-2">Новое пожертвование</div>
+	</div>
+	<div id="table-container">
+		<table id="donation-table">
+			<thead>
+				<tr>
+					<th>Имя</th>
+					<th>Размер</th>
+					<th>Дата</th>
+					<th>Сообщение</th>
+				</tr>
+			</thead>
+			<tbody id="donation-list">
+			</tbody>
+		</table>
+	</div>
+	<div id="new-donation">
+		<form name="newDonation">
+			<div class="form-area">
+				<label class="required" for="username">Имя</label>
+				<input class="input-field" id="username" value="Зритель" maxlength="25" required>
+			</div>
+			<div class="form-area">
+				<label for="message">Сообщение</label>
+				<textarea class="input-field" id="message" rows="3"></textarea>
+			</div>
+			<div class="form-area">
+				<label class="required" for="amount">Размер</label>
+				<div class="input-field">
+					<input id="amount" type="number" min="0.01" step="0.01" required>
+					<select name="currency">
+						<option value="RUB">Рубль</option>
+						<option value="USD">Доллар</option>
+						<option value="EUR">Евро</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-area">
+				<button id="save">Сохранить</button>
+			</div>
+		</form>
+		<form class="form-area">
+			<button id="test-alert">Тестовое оповещение</button>
+			<button id="reset-donations">Сбросить пожертвования</button>
+		</div>
+	</div>
+</div>
+<script src="dashboard.js" async></script>
+</body>
+</html>

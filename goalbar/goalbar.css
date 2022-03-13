@@ -1,0 +1,40 @@
+#widget {
+	padding: 12px;
+	font: 150% / 48px "Open Sans", sans-serif;
+	visibility: hidden;
+}
+
+#goal-bar {
+	position: relative;
+	height: 48px;
+	background: linear-gradient(white, lightgray);
+	box-shadow: 0 0 3px;
+	border-radius: 8px;
+}
+
+#bar-text {
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	text-align: center;
+}
+
+#current-bar {
+	position: absolute;
+	top: 0;
+	max-width: 100%;
+	background: linear-gradient(#ffd280, orange);
+	border-radius: inherit;
+	box-shadow: 0 0 2px;
+	font-weight: bold;
+	padding-left: 10px;
+	white-space: nowrap;
+	transition: width 2s ease-in-out;
+}
+
+#goal-amount {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	font-weight: bold;
+}
