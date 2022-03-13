@@ -1,0 +1,117 @@
+#dashboard {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	font-family: "Open Sans", sans-serif;
+	display: flex;
+	flex-direction: column;
+	touch-action: none;
+}
+
+input, textarea, button, select {
+	font: inherit;
+	touch-action: none;
+}
+
+#tabs {
+	display: table-row;
+	background-color: white;
+}
+
+.tab {
+	display: table-cell;
+	cursor: pointer;
+	padding: 6px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+body,
+.active {
+	background-color: lightgrey;
+}
+
+#table-container {
+	overflow: auto;
+}
+
+#table-container,
+#new-donation {
+	animation: fade-in 1s forwards;
+}
+
+@keyframes fade-in {
+	from {opacity: 0}
+}
+
+#donation-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 4px;
+}
+
+td:last-child {
+	word-break: break-all;
+}
+
+/* ios doesn't support this yet */
+@supports (overflow-wrap: anywhere) {
+	td:last-child {
+		word-break: normal;
+		overflow-wrap: anywhere;
+	}
+}
+
+tbody tr:nth-child(2n-1) {
+	background-color: darkgrey;
+}
+
+#new-donation {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 6px;
+}
+
+form {
+	width: 600px;
+	max-width: 100%;
+}
+
+.form-area, .input-field {
+	display: flex;
+}
+
+.form-area {
+	align-items: center;
+	justify-content: center;
+}
+
+.form-area, button {
+	margin: 4px;
+}
+
+.required::after {
+	content: " *";
+	color: red;
+}
+
+.input-field {
+	flex: 1;
+}
+
+label {
+	width: 100px;
+}
+
+input, textarea {
+	width: 0;
+}
+
+#amount {
+	flex: 1;
+	margin-right: 5px;
+}
