@@ -8,9 +8,41 @@
 	touch-action: none;
 }
 
+td, th {
+	padding: 4px;
+}
+
+td:last-child {
+	word-break: break-all;
+}
+
+/* ios doesn't support this yet */
+@supports (overflow-wrap: anywhere) {
+	td:last-child {
+		word-break: normal;
+		overflow-wrap: anywhere;
+	}
+}
+
+form {
+	width: 600px;
+	max-width: 100%;
+}
+
 input, textarea, button, select {
 	font: inherit;
+}
+
+input, textarea {
+	width: 0;
+}
+
+textarea {
 	touch-action: none;
+}
+
+label {
+	width: 100px;
 }
 
 #tabs {
@@ -49,22 +81,6 @@ body,
 	border-collapse: collapse;
 }
 
-td, th {
-	padding: 4px;
-}
-
-td:last-child {
-	word-break: break-all;
-}
-
-/* ios doesn't support this yet */
-@supports (overflow-wrap: anywhere) {
-	td:last-child {
-		word-break: normal;
-		overflow-wrap: anywhere;
-	}
-}
-
 tbody tr:nth-child(2n-1) {
 	background-color: darkgrey;
 }
@@ -74,11 +90,6 @@ tbody tr:nth-child(2n-1) {
 	align-items: center;
 	flex-direction: column;
 	padding: 6px;
-}
-
-form {
-	width: 600px;
-	max-width: 100%;
 }
 
 .form-area, .input-field {
@@ -101,14 +112,6 @@ form {
 
 .input-field {
 	flex: 1;
-}
-
-label {
-	width: 100px;
-}
-
-input, textarea {
-	width: 0;
 }
 
 #amount {
