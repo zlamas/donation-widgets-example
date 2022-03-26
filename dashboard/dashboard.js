@@ -1,4 +1,5 @@
-function onload() {
+(() => {
+	"use strict";
 	let lastDonationId = -1,
 		activeCurrency;
 
@@ -80,7 +81,7 @@ function onload() {
 			return rates[from] / rates[to] * amount;
 		
 		return 0;
-	}
+	},
 
 	pushDonation = async data => {
 		const formData = new FormData;
@@ -124,52 +125,48 @@ function onload() {
 		row.insertCell().textContent = data.message;
 	};
 
-	document.getElementById("test-alert").onclick = showTestDonation;
+	document.getElementById("test-alert")
+		.addEventListener("click", showTestDonation);
 		
-	document.getElementById("reset-donations").onclick = function() { 
-		if (confirm("Cбросить сохранённые пожертвования?"))
-			resetDonations();
-	};
+	document.getElementById("reset-donations")
+		.addEventListener("click", function() { 
+			if (confirm("Cбросить сохранённые пожертвования?"))
+				resetDonations();
+	});
 
-	tabs[0].onclick = function() {
+	tabs[0].addEventListener("click", function() {
 		tabs[1].classList.remove("active");
 		this.classList.add("active");
 		tableContainer.style.display = "";
 		newDonationTab.style.display = "none";
-	};
+	});
 
-	tabs[1].onclick = function() {
+	tabs[1].addEventListener("click", function() {
 		tabs[0].classList.remove("active");
 		this.classList.add("active");
 		tableContainer.style.display = "none";
 		newDonationTab.style.display = "";
-	};
+	});
 
 	tabs[0].click();
 
+	// prevent double-tap to zoom on ios
+	document.getElementById("dashboard").addEventListener("click", () => {});
+
 	// fix scrolling bug on ios (thanks apple)
-	tableContainer.ontouchstart = function(e) {
-		this.allowUp = (this.scrollTop > 0);
-		this.allowDown = (this.scrollTop < this.scrollHeight - this.clientHeight);
-		this.prevTop = null;
-		this.prevBot = null;
-		this.lastY = e.targetTouches[0].pageY;
-	};
-	tableContainer.ontouchmove = function(e) {
-		const up = (e.targetTouches[0].pageY > this.lastY);
+	tableContainer.addEventListener("touchstart", function(e) {
+		this.atTop = (this.scrollTop <= 0);
+		this.atBottom = (this.scrollTop >= this.scrollHeight - this.clientHeight);
+		this.lastY = e.touches[0].clientY;
+	});
+	tableContainer.addEventListener("touchmove", function(e) {
+		const up = (e.touches[0].clientY > this.lastY);
 
-		this.lastY = e.targetTouches[0].pageY;
+		this.lastY = e.touches[0].clientY;
 
-		if ((up && this.allowUp) || (!up && this.allowDown))
-			e.stopPropagation();
-		else
+		if ((up && this.atTop) || (!up && this.atBottom))
 			e.preventDefault();
-	};
+	});
 	
 	initDashboard();
-}
-
-if (document.readyState === 'loading')
-	document.addEventListener('DOMContentLoaded', onload);
-else
-	onload();
+})();
