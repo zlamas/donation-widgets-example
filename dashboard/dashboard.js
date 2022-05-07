@@ -150,23 +150,26 @@
 
 	tabs[0].click();
 
-	// prevent double-tap to zoom on ios
-	document.getElementById("dashboard").addEventListener("click", () => {});
+	// ios specific fixes
+	if ("standalone" in navigator) {
+		// prevent double-tap to zoom
+		document.getElementById("dashboard").addEventListener("click", () => {});
 
-	// fix scrolling bug on ios (thanks apple)
-	tableContainer.addEventListener("touchstart", function(e) {
-		this.atTop = (this.scrollTop <= 0);
-		this.atBottom = (this.scrollTop >= this.scrollHeight - this.clientHeight);
-		this.lastY = e.touches[0].clientY;
-	});
-	tableContainer.addEventListener("touchmove", function(e) {
-		const up = (e.touches[0].clientY > this.lastY);
+		// fix scrolling bug
+		tableContainer.addEventListener("touchstart", function(e) {
+			this.atTop = (this.scrollTop <= 0);
+			this.atBottom = (this.scrollTop >= this.scrollHeight - this.clientHeight);
+			this.lastY = e.touches[0].clientY;
+		});
+		tableContainer.addEventListener("touchmove", function(e) {
+			const up = (e.touches[0].clientY > this.lastY);
 
-		this.lastY = e.touches[0].clientY;
+			this.lastY = e.touches[0].clientY;
 
-		if ((up && this.atTop) || (!up && this.atBottom))
-			e.preventDefault();
-	});
+			if ((up && this.atTop) || (!up && this.atBottom))
+				e.preventDefault();
+		});
+	}
 	
 	initDashboard();
 })();
