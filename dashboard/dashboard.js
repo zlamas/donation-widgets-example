@@ -46,8 +46,8 @@
 	tabs = document.getElementsByClassName("tab"),
 	rates = {
 		'RUB': 1,
-		'USD': 116.75,
-		'EUR': 128.95
+		'USD': 67.95,
+		'EUR': 72.34
 	},
 
 	initDashboard = async () => {

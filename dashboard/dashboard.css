@@ -8,6 +8,15 @@
 	touch-action: none;
 }
 
+@keyframes fade-in {
+	from {opacity: 0}
+}
+
+body,
+.active {
+	background-color: lightgrey;
+}
+
 td, th {
 	padding: 4px;
 }
@@ -22,6 +31,10 @@ td:last-child {
 		word-break: normal;
 		overflow-wrap: anywhere;
 	}
+}
+
+tbody tr:nth-child(2n-1) {
+	background-color: darkgrey;
 }
 
 form {
@@ -41,6 +54,10 @@ textarea {
 	touch-action: none;
 }
 
+button {
+	margin: 4px;
+}
+
 label {
 	width: 100px;
 }
@@ -58,11 +75,6 @@ label {
 	vertical-align: middle;
 }
 
-body,
-.active {
-	background-color: lightgrey;
-}
-
 #table-container {
 	overflow: auto;
 }
@@ -72,17 +84,9 @@ body,
 	animation: fade-in 1s forwards;
 }
 
-@keyframes fade-in {
-	from {opacity: 0}
-}
-
 #donation-table {
 	width: 100%;
 	border-collapse: collapse;
-}
-
-tbody tr:nth-child(2n-1) {
-	background-color: darkgrey;
 }
 
 #new-donation {
@@ -99,9 +103,6 @@ tbody tr:nth-child(2n-1) {
 .form-area {
 	align-items: center;
 	justify-content: center;
-}
-
-.form-area, button {
 	margin: 4px;
 }
 
