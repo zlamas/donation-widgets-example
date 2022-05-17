@@ -11,20 +11,28 @@ function decodeJSON($json) {
 	return $data;
 }
 
-function encodeJSON($json) {
-	return json_encode($json, JSON_UNESCAPED_UNICODE);
-}
-
 function getAndDecodeJSON($path) {
 	return decodeJSON(getFile($path));
 }
 
-function encodeAndPutJSON($path, $json) {
-	file_put_contents(__DIR__ . $path, encodeJSON($json));
+function encodeJSON($data) {
+	return json_encode($data, JSON_UNESCAPED_UNICODE);
+}
+
+function encodeAndPutJSON($data, $path) {
+	file_put_contents(__DIR__ . $path, encodeJSON($data));
 }
 
 function getDonations() {
 	return getAndDecodeJSON('/donations.json');
+}
+
+function saveDonations($donations) {
+	encodeAndPutJSON($donations, '/donations.json');
+}
+
+function getSettings() {
+	return getAndDecodeJSON('/settings.json');
 }
 
 function filterById($array, $fromId) {
@@ -35,22 +43,19 @@ function filterById($array, $fromId) {
 	return array_values($filter);
 }
 
-function saveDonations($donations) {
-	encodeAndPutJSON('/donations.json', $donations);
-}
-
-function pushDonation($data) {
-	$donations = getDonations();
-	array_push($donations, $data);
-	saveDonations($donations);
-}
-
-function popDonation() {
-	$donations = getDonations();
-	array_pop($donations);
-	saveDonations($donations);
-}
-
-function getSettings() {
-	return getAndDecodeJSON('/settings.json');
+function convertCurrency($from, $to, $amount) {
+	if ($from === $to)
+		return $amount;
+	
+	// $rates = getCurrencyRates();
+	$rates = [
+		'RUB' => 1,
+		'USD' => 67.95,
+		'EUR' => 72.34
+	];
+	
+	if ($rates[$from] && $rates[$to])
+		return round($rates[$from] / $rates[$to] * $amount, 2);
+	
+	return 0;
 }

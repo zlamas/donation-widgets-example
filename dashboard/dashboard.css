@@ -13,8 +13,12 @@
 }
 
 body,
-.active {
+#tab-active {
 	background-color: lightgrey;
+}
+
+iframe {
+	display: none;
 }
 
 td, th {
@@ -38,8 +42,7 @@ tbody tr:nth-child(2n-1) {
 }
 
 form {
-	width: 600px;
-	max-width: 100%;
+	text-align: center;
 }
 
 input, textarea, button, select {
@@ -47,6 +50,7 @@ input, textarea, button, select {
 }
 
 input, textarea {
+	flex: 1;
 	width: 0;
 }
 
@@ -75,13 +79,17 @@ label {
 	vertical-align: middle;
 }
 
-#table-container {
+#tab-container {
 	overflow: auto;
 }
 
-#table-container,
-#new-donation {
+.tab-content {
 	animation: fade-in 1s forwards;
+	display: none;
+}
+
+#tab-visible {
+	display: block;
 }
 
 #donation-table {
@@ -89,33 +97,21 @@ label {
 	border-collapse: collapse;
 }
 
-#new-donation {
+#donation-form {
 	display: flex;
-	align-items: center;
 	flex-direction: column;
-	padding: 6px;
-}
-
-.form-area, .input-field {
-	display: flex;
+	align-items: center;
 }
 
 .form-area {
 	align-items: center;
-	justify-content: center;
-	margin: 4px;
+	display: flex;
+	padding: 4px;
+	width: 100%;
+	max-width: 600px;
 }
 
 .required::after {
 	content: " *";
 	color: red;
-}
-
-.input-field {
-	flex: 1;
-}
-
-#amount {
-	flex: 1;
-	margin-right: 5px;
 }

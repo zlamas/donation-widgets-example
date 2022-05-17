@@ -1,27 +1,27 @@
-function onload() {
+(() => {
 	"use strict";
 	let lastDonationId = -1,
 		queue = [],
 		isPlaying = false;
 
 	const
-		widget = document.getElementById("widget"),
-		imageElem = document.getElementById("alert-image"),
-		videoElem = document.getElementById("alert-video"),
-		audioElem = document.getElementById("alert-sound"),
-		messageElem = document.getElementById("alert-message"),
-		userMsgElem = document.getElementById("alert-user-message"),
+	widget = document.getElementById("widget"),
+	imageElem = document.getElementById("alert-image"),
+	videoElem = document.getElementById("alert-video"),
+	audioElem = document.getElementById("alert-sound"),
+	messageElem = document.getElementById("alert-message"),
+	userMsgElem = document.getElementById("alert-user-message"),
 	
 	displayAlert = (data, settings) => {
 		const
-			currency = new Intl.NumberFormat("ru", {
-				style: "currency",
-				currency: data.currency
-			});
+		currency = new Intl.NumberFormat("ru", {
+			style: "currency",
+			currency: data.currency
+		});
 
 		messageElem.innerHTML = settings.template
 			.replace("{name}",
-				`<span class=highlight>${data.name}</span>`)
+				`<span class=highlight>${data.username}</span>`)
 			.replace("{amount}",
 				`<span class=highlight>${currency.format(data.amount)}</span>`);
 		userMsgElem.textContent = data.message;
@@ -44,17 +44,15 @@ function onload() {
 			imageElem.style.display = "";
 		}
 		
-		widget.style.visibility = "visible";
 		widget.className = "playing";
 		isPlaying = true;
 
 		setTimeout(() => {
 			widget.className = "";
-			videoElem.pause();
 			
 			setTimeout(() => {
 				isPlaying = false;
-				widget.style.visibility = "";
+				videoElem.pause();
 			}, settings.delay * 1000);
 		}, settings.time * 1000);
 	},
@@ -66,31 +64,24 @@ function onload() {
 	},
 
 	initUpdates = async () => {
-		let data = await getUpdates();
-		lastDonationId = data.settings.id;
+		let { settings, updates } = await getUpdates();
+		lastDonationId = settings.id;
 
 		setInterval(async () => {
-			data = await getUpdates();
-			lastDonationId = data.settings.id;
+			({ settings, updates } = await getUpdates());
+			lastDonationId = settings.id;
 
-			queue.push(...data.updates);
+			queue.push(...updates);
 			
 			if (!queue.length)
 				return;
 			
 			if (!isPlaying) {
 				const next = queue.shift();
-				displayAlert(next, data.settings);
+				displayAlert(next, settings);
 			}
-		}, 3000);
+		}, settings.pollingInterval * 1000);
 	};
 
-	videoElem.loop = true;
-
 	initUpdates();
-}
-
-if (document.readyState === 'loading')
-	document.addEventListener('DOMContentLoaded', onload);
-else
-	onload();
+})();

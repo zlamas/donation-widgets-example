@@ -1,10 +1,9 @@
-function onload() {
+(() => {
 	"use strict";
 	const
-		widget = document.getElementById("widget"),
-		goalName = document.getElementById("current-bar"),
-		amountText = document.getElementById("bar-text").firstChild,
-		goalAmount = document.getElementById("goal-amount"),
+	goalName = document.getElementById("current-bar"),
+	amountText = document.getElementById("bar-text").firstChild,
+	goalAmount = document.getElementById("goal-amount"),
 	
 	updateBar = data => {
 		const currency = new Intl.NumberFormat("ru", {
@@ -27,18 +26,11 @@ function onload() {
 		let data = await getData();
 		updateBar(data);
 		
-		widget.style.visibility = "visible";
-
 		setInterval(async () => {
 			data = await getData();
 			updateBar(data);
-		}, 3000);
+		}, data.pollingInterval * 1000);
 	};
 
 	initUpdates();
-}
-
-if (document.readyState === 'loading')
-	document.addEventListener('DOMContentLoaded', onload);
-else
-	onload();
+})();

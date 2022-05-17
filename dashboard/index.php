@@ -2,7 +2,7 @@
 
 require '../private/actions.php';
 
-$action = $_REQUEST['action'];
+$action = $_REQUEST['action'] ?? null;
 $isPost = $_SERVER['REQUEST_METHOD'] == 'POST';
 
 if ($action === 'test-donation') {
@@ -11,12 +11,7 @@ if ($action === 'test-donation') {
 }
 
 if ($isPost && $action === 'push-donation') {
-	pushNewDonation();
-	return;
-}
-
-if ($action === 'init') {
-	initDashboard();
+	pushDonation($_POST);
 	return;
 }
 
@@ -25,4 +20,4 @@ if ($action === 'reset-donations') {
 	return;
 }
 
-require 'dashboard.html';
+require 'dashboard.php';
