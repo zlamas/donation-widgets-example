@@ -2,65 +2,87 @@
 
 require 'function.php';
 
+$settings = getSettings();
+
 function getGoalBarData() {
-	$settings = getSettings();
+	global $settings;
+
 	$data = $settings['goalbar'];
 	$donations = filterById(getDonations(), $data['from']);
 
-	$data['amount'] = array_sum(array_column($donations, "amount"));
+	$data['amount'] = array_sum(array_column($donations, 'amount'));
 	$data['currency'] = $settings['currency'];
 
 	echo encodeJSON($data);
 }
 
 function getAlertBoxData() {
-	$settings = getSettings()['alertbox'];
+	global $settings;
+
+	$alertboxSettings = $settings['alertbox'];
 	$fromId = $_GET['from'];
 	$donations = getDonations();
 
 	if ($donations) {
 		$updates = filterById($donations, $fromId);
-		$settings['id'] = end($updates)['id'] ?? end($donations)['id'];
+		$alertboxSettings['id'] = end($updates)['id'] ?? end($donations)['id'];
 	} else {
 		$updates = [];
-		$settings['id'] = -1;
+		$alertboxSettings['id'] = -1;
 	}
 
 	$data = [
-		'settings' => $settings,
+		'settings' => $alertboxSettings,
 		'updates' => $updates
 	];
 
 	echo encodeJSON($data);
 }
 
-function initDashboard() {
-	$data = [
-		'settings' => getSettings(),
-		'donations' => getDonations()
-	];
+function pushDonation($data) {
+	global $settings;
 
-	echo encodeJSON($data);
+	$donations = getDonations();
+	
+	if ($donations)
+		$data['id'] = end($donations)['id'] + 1;
+	else
+		$data['id'] = 0;
+	
+	$data['date'] = time();
+
+	if ($data['currency'] != $settings['currency']) {
+		$data['amount'] = convertCurrency(
+			$data['currency'],
+			$settings['currency'],
+			$data['amount']
+		);
+
+		$data['currency'] = $settings['currency'];
+	}
+
+	array_push($donations, $data);
+	saveDonations($donations);
 }
 
-function pushNewDonation() {
-	$data_json = $_POST['data'];
-	$data = decodeJSON($data_json);
-	
-	pushDonation($data);
+function popDonation() {
+	$donations = getDonations();
+	array_pop($donations);
+	saveDonations($donations);
 }
 
 function pushTestDonation() {
+	global $settings;
+
 	$item = [
-		'id' => PHP_INT_MAX,
-		'name' => "Test Subject",
+		'username' => "Test Subject",
+		'message' => "This is a test alert message",
 		'amount' => rand(0, 100000) / 100,
-		'currency' => "RUB",
-		'message' => "This is a test alert message"
+		'currency' => $settings['currency']
 	];
 	pushDonation($item);
 
-	sleep(3);
+	sleep($settings['goalbar']['pollingInterval']);
 	popDonation();
 }
 

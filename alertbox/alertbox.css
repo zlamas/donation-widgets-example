@@ -9,7 +9,6 @@
 	opacity: 0;
 	text-align: center;
 	transition: opacity 1s;
-	visibility: hidden;
 }
 
 #widget.playing {
