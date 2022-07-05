@@ -1,38 +1,44 @@
 <?php
 
+define('SETTINGS', parse_ini_file('settings.ini', true));
+define('TEST_DONATION_LOCK', __DIR__ . '/test_donation_file');
+
 require 'function.php';
 
-$settings = getSettings();
+if (file_exists(TEST_DONATION_LOCK)
+	&& time() > filemtime(TEST_DONATION_LOCK) + SETTINGS['lockFileMaxAge'])
+	unlink(TEST_DONATION_LOCK);
 
 function getGoalBarData() {
-	global $settings;
-
-	$data = $settings['goalbar'];
-	$donations = filterById(getDonations(), $data['from']);
+	$data = SETTINGS['goalbar'];
+	$donations = getDonations($data['from']);
 
 	$data['amount'] = array_sum(array_column($donations, 'amount'));
-	$data['currency'] = $settings['currency'];
+	$data['currency'] = SETTINGS['currency'];
 
 	echo encodeJSON($data);
 }
 
 function getAlertBoxData() {
-	global $settings;
+	$alertbox_settings = SETTINGS['alertbox'];
+	$from_id = $_GET['from'];
+	$updates = getDonations($from_id);
+	$last_id = end($updates)['id'] ?? getLastDonationId();
 
-	$alertboxSettings = $settings['alertbox'];
-	$fromId = $_GET['from'];
-	$donations = getDonations();
-
-	if ($donations) {
-		$updates = filterById($donations, $fromId);
-		$alertboxSettings['id'] = end($updates)['id'] ?? end($donations)['id'];
-	} else {
-		$updates = [];
-		$alertboxSettings['id'] = -1;
+	if (file_exists(TEST_DONATION_LOCK)) {
+		$updates[] = [
+			'username' => 'Test Subject',
+			'message' => 'This is a test alert message',
+			'amount' => rand(0, 100000) / 100,
+			'currency' => SETTINGS['currency']
+		];
+		unlink(TEST_DONATION_LOCK);
 	}
 
+	$alertbox_settings['id'] = $last_id;
+
 	$data = [
-		'settings' => $alertboxSettings,
+		'settings' => $alertbox_settings,
 		'updates' => $updates
 	];
 
@@ -40,50 +46,26 @@ function getAlertBoxData() {
 }
 
 function pushDonation($data) {
-	global $settings;
+	$last_id = getLastDonationId();
 
-	$donations = getDonations();
-	
-	if ($donations)
-		$data['id'] = end($donations)['id'] + 1;
-	else
-		$data['id'] = 0;
-	
+	$data['id'] = $last_id + 1;
 	$data['date'] = time();
 
-	if ($data['currency'] != $settings['currency']) {
+	if ($data['currency'] != SETTINGS['currency']) {
 		$data['amount'] = convertCurrency(
 			$data['currency'],
-			$settings['currency'],
+			SETTINGS['currency'],
 			$data['amount']
 		);
 
-		$data['currency'] = $settings['currency'];
+		$data['currency'] = SETTINGS['currency'];
 	}
 
-	array_push($donations, $data);
-	saveDonations($donations);
-}
-
-function popDonation() {
-	$donations = getDonations();
-	array_pop($donations);
-	saveDonations($donations);
+	saveDonation($data);
 }
 
 function pushTestDonation() {
-	global $settings;
-
-	$item = [
-		'username' => "Test Subject",
-		'message' => "This is a test alert message",
-		'amount' => rand(0, 100000) / 100,
-		'currency' => $settings['currency']
-	];
-	pushDonation($item);
-
-	sleep($settings['goalbar']['pollingInterval']);
-	popDonation();
+	fclose(fopen(TEST_DONATION_LOCK, 'a'));
 }
 
 function resetDonations() {

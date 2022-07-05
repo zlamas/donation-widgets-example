@@ -28,23 +28,20 @@
 				<tbody id="donation-list">
 				<?php
 					$fmt = numfmt_create('ru_RU', NumberFormatter::CURRENCY);
-					$currency = $settings['currency'];
+					$currency = SETTINGS['currency'];
+					$donations = getDonations();
 
-					foreach (array_reverse(getDonations()) as $donation) {
+					while ($donation = array_pop($donations)) {
 						$amount = numfmt_format_currency($fmt, $donation['amount'], $currency);
-						$time = date('d.m.Y H:i:s', $donation['date']);
-
-						if (!key_exists('message', $donation))
-							$donation['message'] = "";
-
-						echo '<tr donation-id=' . $donation['id'] . '>';
-						echo '<td>' . $donation['username'] . '</td>';
-						echo '<td>' . $amount . '</td>';
-						echo '<td>' . $time . '</td>';
-						echo '<td>' . $donation['message'] . '</td>';
-						echo '</tr>';
-					}
+						$date = date('d.m.Y H:i:s', $donation['date']);
 				?>
+					<tr>
+						<td><?= $donation['username'] ?></td>
+						<td><?= $amount ?></td>
+						<td><?= $date ?></td>
+						<td><?= $donation['message'] ?></td>
+					</tr>
+				<?php } ?>
 				</tbody>
 			</table>
 		</div>
