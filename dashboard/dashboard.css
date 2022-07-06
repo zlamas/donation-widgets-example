@@ -1,28 +1,35 @@
-#dashboard {
+.main {
+	display: grid;
+	position: fixed;
 	height: 100%;
 	width: 100%;
-	position: fixed;
+
 	font-family: "Open Sans", sans-serif;
-	display: flex;
-	flex-direction: column;
-	touch-action: none;
+	grid-template-columns: 1fr 1fr;
+	grid-auto-rows: auto 1fr;
 }
 
-@keyframes fade-in {
-	from {opacity: 0}
+.main,
+#reset-confirm > div {
+	background: darkgrey;
 }
 
-body,
-#tab-active {
-	background-color: lightgrey;
-}
-
-iframe {
-	display: none;
-}
-
-td, th {
+th, td {
 	padding: 4px;
+}
+
+th {
+	position: sticky;
+	top: 0;
+}
+
+th,
+tbody tr:nth-child(2n) {
+	background: grey;
+}
+
+td {
+	text-align: center;
 }
 
 td:last-child {
@@ -32,86 +39,144 @@ td:last-child {
 /* ios doesn't support this yet */
 @supports (overflow-wrap: anywhere) {
 	td:last-child {
-		word-break: normal;
 		overflow-wrap: anywhere;
+		word-break: normal;
 	}
 }
 
-tbody tr:nth-child(2n-1) {
-	background-color: darkgrey;
-}
-
-form {
-	text-align: center;
-}
-
-input, textarea, button, select {
+a, input, textarea, button, select {
+	border: none;
+	border-radius: 4px;
 	font: inherit;
 }
 
-input, textarea {
-	flex: 1;
-	width: 0;
+a {
+	display: inline-block;
+	text-decoration: none;
 }
 
-textarea {
-	touch-action: none;
-}
-
-button {
-	margin: 4px;
-}
-
-label {
-	width: 100px;
-}
-
-#tabs {
-	display: table-row;
-	background-color: white;
-}
-
-.tab {
-	display: table-cell;
-	cursor: pointer;
-	padding: 6px;
-	text-align: center;
-	vertical-align: middle;
-}
-
-#tab-container {
-	overflow: auto;
-}
-
-.tab-content {
-	animation: fade-in 1s forwards;
+input[type="radio"] {
 	display: none;
 }
 
-#tab-visible {
+input, textarea {
+	min-width: 0;
+	padding: 6px;
+}
+
+textarea {
+	resize: vertical;
+}
+
+a, button {
+	margin: 4px;
+}
+
+a, button, select {
+	background-color: lightgrey;
+	color: black;
+	cursor: pointer;
+	padding: 4px 8px;
+}
+
+a:hover, button:hover, select:hover {
+	background-color: #bbb;
+}
+
+a:active, button:active, select:active {
+	background-color: grey;
+}
+
+@keyframes fade-in {
+	from {opacity: 0}
+}
+
+.tab + label {
+	background: white;
+	cursor: pointer;
+	padding: 6px;
+	text-align: center;
+	transition: background-color .5s;
+}
+
+.tab + label:hover {
+	background: lightgrey;
+}
+
+.tab:checked + label {
+	background: none;
+}
+
+.tab-content {
+	display: none;
+
+	animation: fade-in 1s;
+	grid-column: 1 / -1;
+	overflow: auto;
+}
+
+.tab:checked:nth-of-type(1) ~ .tab-content:nth-of-type(1),
+.tab:checked:nth-of-type(2) ~ .tab-content:nth-of-type(2) {
 	display: block;
 }
 
-#donation-table {
+.donation-table {
 	width: 100%;
 	border-collapse: collapse;
 }
 
-#donation-form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.donation-form {
+	display: grid;
+	max-width: 400px;
+
+	gap: 8px;
+	grid-template-columns: 100px 1fr 100px;
+	margin: 0 auto;
+	padding: 6px;
+	text-align: right;
 }
 
-.form-area {
-	align-items: center;
-	display: flex;
-	padding: 4px;
-	width: 100%;
-	max-width: 600px;
+.donation-form label {
+	align-self: center;
+}
+
+.donation-form button {
+	grid-column: 1 / -1;
+}
+
+#donation-name,
+#donation-message {
+	grid-column: 2 / -1;
 }
 
 .required::after {
-	content: " *";
 	color: red;
+	content: " *";
+}
+
+.extra-controls {
+	text-align: center;
+}
+
+#reset-confirm {
+	display: none;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+
+	animation: fade-in 0.3s;
+	background-color: rgba(0, 0, 0, 0.7);
+	padding: 10px;
+}
+
+#reset-confirm:target {
+	display: flex;
+}
+
+#reset-confirm > div {
+	border-radius: 4px;
+	box-shadow: 0 0 5px;
+	padding: 8px 12px;
+	text-align: center;
+	margin: auto;
 }
