@@ -65,7 +65,7 @@ function pushDonation($data) {
 }
 
 function pushTestDonation() {
-	fclose(fopen(TEST_DONATION_LOCK, 'a'));
+	touch(TEST_DONATION_LOCK);
 }
 
 function resetDonations() {
