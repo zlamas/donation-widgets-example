@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="ru">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-	<title>Панель управления пожертвованиями</title>
-	<link rel="stylesheet" href="/common/common.css">
-	<link rel="stylesheet" href="dashboard.css">
-</head>
-<body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+<title>Панель управления пожертвованиями</title>
+<link rel="stylesheet" href="/common/common.css">
+<link rel="stylesheet" href="dashboard.css">
+
 <div class="main">
 	<input type="radio" name="tab" id="tab-donations" class="tab" checked>
 	<label for="tab-donations">Пожертвования</label>
@@ -75,5 +73,3 @@
 		</div>
 	</form>
 </div>
-</body>
-</html>
