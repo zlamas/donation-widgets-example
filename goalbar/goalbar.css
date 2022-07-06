@@ -1,11 +1,8 @@
 #widget {
-	padding: 12px;
 	font: 150% / 48px "Open Sans", sans-serif;
-}
-
-#goal-bar {
-	position: relative;
+	margin: 8px;
 	height: 48px;
+	position: relative;
 	background: linear-gradient(white, lightgray);
 	box-shadow: 0 0 3px;
 	border-radius: 8px;
