@@ -1,24 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-	<title>Alert Widget</title>
-	<link rel="stylesheet" href="/common/common.css">
-	<link rel="stylesheet" href="alertbox.css">
-	<script src="alertbox.js" async></script>
-</head>
-<body>
-	<div id="widget">
-		<div id="alert-image-box">
-			<img id="alert-image">
-			<video id="alert-video" loop></video>
-		</div>
-		<audio id="alert-sound"></audio>
-		<div id="alert-text">
-			<div id="alert-message">[message]</div>
-			<div id="alert-user-message">[userMessage]</div>
-		</div>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+<title>Виджет - оповещения</title>
+<link rel="stylesheet" href="/common/common.css">
+<link rel="stylesheet" href="alertbox.css">
+<script src="alertbox.js" async></script>
+
+<div id="widget">
+	<div id="alert-image-box">
+		<img id="alert-image" src="data:," alt>
+		<video id="alert-video" loop></video>
 	</div>
-</body>
-</html>
+	<audio id="alert-sound"></audio>
+	<div id="alert-text">
+		<div id="alert-message"></div>
+		<div id="alert-user-message"></div>
+	</div>
+</div>
