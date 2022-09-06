@@ -1,36 +1,36 @@
 #widget {
-	font: 150% / 48px "Open Sans", sans-serif;
-	margin: 8px;
-	height: 48px;
+	display: flex;
 	position: relative;
 	background: linear-gradient(white, lightgray);
 	box-shadow: 0 0 3px;
 	border-radius: 8px;
+	font: 1.5em / 48px "Open Sans", sans-serif;
+	justify-content: space-between;
+	margin: 8px;
+	padding: 0 10px;
+	white-space: nowrap;
 }
 
-#bar-text {
-	position: absolute;
-	width: 100%;
-	z-index: 1;
-	text-align: center;
+div {
+	z-index: 0;
 }
 
-#current-bar {
+#current-progress {
 	position: absolute;
-	top: 0;
+	inset: 0;
+	min-width: 10px;
 	max-width: 100%;
 	background: linear-gradient(#ffd280, orange);
 	border-radius: inherit;
 	box-shadow: 0 0 2px;
-	font-weight: bold;
-	padding-left: 10px;
-	white-space: nowrap;
 	transition: width 2s ease-in-out;
 }
 
+#goal-name,
 #goal-amount {
-	position: absolute;
-	top: 0;
-	right: 10px;
 	font-weight: bold;
+}
+
+#goal-amount::before {
+	content: "Цель: ";
 }

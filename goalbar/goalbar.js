@@ -1,9 +1,7 @@
 "use strict";
 {
 const
-goalName = document.getElementById("current-bar"),
-amountText = document.getElementById("bar-text").firstChild,
-goalAmount = document.getElementById("goal-amount"),
+[ progressBar, goalName, currentAmount, goalAmount ] = document.getElementById("widget").children,
 
 updateBar = data => {
 	const currency = new Intl.NumberFormat("ru", {
@@ -11,10 +9,10 @@ updateBar = data => {
 		currency: data.currency
 	});
 
+	progressBar.style.width = `${data.amount / data.total * 100}%`;
 	goalName.textContent = data.title;
-	amountText.textContent = currency.format(data.amount);
-	goalAmount.textContent = `Цель: ${currency.format(data.total)}`;
-	goalName.style.width = `${data.amount / data.total * 100}%`;
+	currentAmount.textContent = currency.format(data.amount);
+	goalAmount.textContent = currency.format(data.total);
 },
 
 getData = async () => {
