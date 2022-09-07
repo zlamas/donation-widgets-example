@@ -15,7 +15,7 @@ if (isset($action)) {
 		resetDonations();
 
 	header("Location: .");
-	return;
+	exit;
 }
 
 require 'dashboard.php';

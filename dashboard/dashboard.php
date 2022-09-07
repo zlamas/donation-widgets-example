@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Панель управления пожертвованиями</title>
 <link rel="stylesheet" href="/common/common.css">
 <link rel="stylesheet" href="dashboard.css">

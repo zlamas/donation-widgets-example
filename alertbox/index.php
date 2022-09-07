@@ -6,7 +6,7 @@ $action = $_REQUEST['action'] ?? null;
 
 if ($action === 'update') {
 	getAlertBoxData();
-	return;
+	exit;
 }
 
 require 'alertbox.html';
