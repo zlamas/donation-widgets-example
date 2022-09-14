@@ -67,8 +67,8 @@
 		<div>
 			Действительно сбросить все пожертвования?
 			<div>
-				<button name="action" value="reset-donations">Да</button>
-				<a href="#">Нет</a>
+				<button name="action" value="reset-donations">Сбросить</button>
+				<a href="#">Отменить</a>
 			</div>
 		</div>
 	</form>
