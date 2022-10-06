@@ -1,6 +1,6 @@
 "use strict";{
-const
-[ progressBar, goalName, currentAmount, goalAmount ] = document.getElementById("widget").children;
+const [ progressBar, goalName, currentAmount, goalAmount ] =
+	document.getElementById("widget").children;
 
 (async function updateBar() {
 	const

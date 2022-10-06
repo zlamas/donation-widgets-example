@@ -1,5 +1,5 @@
 "use strict";{
-let lastChecked = Date.now(),
+let lastChecked,
 	queue = [],
 	isPlaying;
 
@@ -12,8 +12,7 @@ messageElem = document.getElementById("alert-message"),
 userMsgElem = document.getElementById("alert-user-message");
 
 (async function alertsLoop() {
-	const
-	{ settings, updates } =
+	const { settings, updates } =
 		await (await fetch(`?action=update&from=${lastChecked}`)).json();
 
 	lastChecked = Date.now();
