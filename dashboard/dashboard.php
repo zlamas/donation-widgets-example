@@ -30,7 +30,7 @@
 
 				while ($donation = array_pop($donations)) {
 					$amount = numfmt_format_currency($fmt, $donation['amount'], $currency);
-					$date = date('d.m.Y H:i:s', $donation['date']);
+					$date = date('d.m.Y H:i:s', $donation['time'] / 1000);
 			?>
 				<tr>
 					<td><?= $donation['username'] ?></td>

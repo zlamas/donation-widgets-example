@@ -1,8 +1,8 @@
 #widget {
-	height: 100%;
-	width: 100%;
 	display: flex;
 	position: fixed;
+	height: 100%;
+	width: 100%;
 	flex-direction: column;
 	font: 1.5em "Open Sans", sans-serif;
 	justify-content: space-evenly;

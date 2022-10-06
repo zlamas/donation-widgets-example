@@ -1,8 +1,7 @@
-"use strict";
-{
-let lastDonationId = -1,
+"use strict";{
+let lastChecked = Date.now(),
 	queue = [],
-	isPlaying = false;
+	isPlaying;
 
 const
 widget = document.getElementById("widget"),
@@ -10,72 +9,60 @@ imageElem = document.getElementById("alert-image"),
 videoElem = document.getElementById("alert-video"),
 audioElem = document.getElementById("alert-sound"),
 messageElem = document.getElementById("alert-message"),
-userMsgElem = document.getElementById("alert-user-message"),
+userMsgElem = document.getElementById("alert-user-message");
 
-displayAlert = (data, settings) => {
+(async function alertsLoop() {
 	const
-	currency = new Intl.NumberFormat("ru", {
-		style: "currency",
-		currency: data.currency
-	});
+	{ settings, updates } =
+		await (await fetch(`?action=update&from=${lastChecked}`)).json();
 
-	messageElem.innerHTML = settings.template
-		.replace("{name}",
-			`<span class=highlight>${data.username}</span>`)
-		.replace("{amount}",
-			`<span class=highlight>${currency.format(data.amount)}</span>`);
-	userMsgElem.textContent = data.message;
+	lastChecked = Date.now();
+	queue.push(...updates);
+	if (queue.length && !isPlaying) {
+		const
+		data = queue.shift(),
+		currency = new Intl.NumberFormat("ru", {
+			style: "currency",
+			currency: data.currency
+		});
 
-	if (settings.sound) {
-		audioElem.src = settings.path + settings.sound;
-		audioElem.volume = settings.volume;
-		audioElem.play();
-	}
+		messageElem.innerHTML = settings.template
+			.replace("{name}",
+				`<span class=highlight>${data.username}</span>`)
+			.replace("{amount}",
+				`<span class=highlight>${currency.format(data.amount)}</span>`);
+		userMsgElem.textContent = data.message;
 
-	if (settings.imageType == "video") {
-		videoElem.src = settings.path + settings.image;
-		videoElem.style.display = "";
-		imageElem.style.display = "none";
-		videoElem.muted = settings.sound;
-		videoElem.play();
-	} else {
-		imageElem.src = settings.path + settings.image;
-		videoElem.style.display = "none";
-		imageElem.style.display = "";
-	}
-	
-	widget.className = "playing";
-	isPlaying = true;
+		if (settings.sound) {
+			audioElem.src = settings.path + settings.sound;
+			audioElem.volume = settings.volume;
+			audioElem.play();
+		}
 
-	setTimeout(() => {
-		widget.className = "";
+		if (settings.imageType == "video") {
+			videoElem.src = settings.path + settings.image;
+			videoElem.style.display = "";
+			imageElem.style.display = "none";
+			videoElem.muted = settings.sound;
+			videoElem.play();
+		} else {
+			imageElem.src = settings.path + settings.image;
+			videoElem.style.display = "none";
+			imageElem.style.display = "";
+		}
+
+		widget.className = "playing";
+		isPlaying = true;
 
 		setTimeout(() => {
-			isPlaying = false;
-			videoElem.pause();
-		}, settings.delay * 1000);
-	}, settings.time * 1000);
-},
+			widget.className = "";
 
-getUpdates = async () => {
-	const response =
-		await fetch(`?action=update&from=${lastDonationId}`);
-	return response.json();
-},
-
-initUpdates = async () => {
-	let { settings, updates } = await getUpdates();
-	lastDonationId = settings.id;
-
-	setInterval(async () => {
-		({ settings, updates } = await getUpdates());
-		lastDonationId = settings.id;
-		queue.push(...updates);
-
-		if (queue.length && !isPlaying)
-			displayAlert(queue.shift(), settings);
-	}, settings.pollingInterval * 1000);
-};
-
-initUpdates();
+			setTimeout(() => {
+				isPlaying = false;
+				videoElem.pause();
+			}, settings.delay * 1000);
+		}, settings.time * 1000);
+	}
+	setTimeout(alertsLoop, settings.pollingInterval * 1000);
+})();
 }

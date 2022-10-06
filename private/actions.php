@@ -20,10 +20,7 @@ function getGoalBarData() {
 }
 
 function getAlertBoxData() {
-	$alertbox_settings = SETTINGS['alertbox'];
-	$from_id = $_GET['from'];
-	$updates = getDonations($from_id);
-	$last_id = end($updates)['id'] ?? getLastDonationId();
+	$updates = getDonations($_GET['from']);
 
 	if (file_exists(TEST_DONATION_LOCK)) {
 		$updates[] = [
@@ -35,21 +32,14 @@ function getAlertBoxData() {
 		unlink(TEST_DONATION_LOCK);
 	}
 
-	$alertbox_settings['id'] = $last_id;
-
-	$data = [
-		'settings' => $alertbox_settings,
+	echo encodeJSON([
+		'settings' => SETTINGS['alertbox'],
 		'updates' => $updates
-	];
-
-	echo encodeJSON($data);
+	]);
 }
 
 function pushDonation($data) {
-	$last_id = getLastDonationId();
-
-	$data['id'] = $last_id + 1;
-	$data['date'] = time();
+	$data['time'] = (int)(microtime(true) * 1000);
 
 	if ($data['currency'] != SETTINGS['currency']) {
 		$data['amount'] = convertCurrency(
