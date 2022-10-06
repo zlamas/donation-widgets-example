@@ -12,6 +12,7 @@ if (file_exists(TEST_DONATION_LOCK)
 function getGoalBarData() {
 	$data = SETTINGS['goalbar'];
 	$donations = getDonations($data['from']);
+	unset($data['from']);
 
 	$data['amount'] = array_sum(array_column($donations, 'amount'));
 	$data['currency'] = SETTINGS['currency'];
