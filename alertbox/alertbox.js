@@ -20,7 +20,7 @@ userMsgElem = document.getElementById("alert-user-message");
 	if (queue.length && !isPlaying) {
 		const data = queue.shift();
 
-		data.message.forEach((text, i) => messageNodes[i].textContent = text);
+		messageNodes.forEach((node, i) => node.textContent = data.message[i] || "");
 		userMsgElem.textContent = data.userMessage;
 
 		if (settings.sound) {
