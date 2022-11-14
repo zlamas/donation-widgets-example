@@ -1,5 +1,6 @@
 <?php
 
+define('SETTINGS', parse_ini_file('settings.ini', true));
 define('DONATIONS_FILE', __DIR__ . '/donations.csv');
 define('TABLE_KEYS', ['time','username','amount','currency','message']);
 
@@ -37,6 +38,14 @@ function popDonation() {
 	$donations = file(DONATIONS_FILE);
 	array_pop($donations);
 	saveDonations($donations);
+}
+
+function formatCurrency($amount, $currency = SETTINGS['currency']) {
+	return numfmt_format_currency(
+		numfmt_create('ru_RU', NumberFormatter::CURRENCY),
+		$amount,
+		$currency
+	);
 }
 
 function convertCurrency($from, $to, $amount) {

@@ -1,14 +1,14 @@
 "use strict";{
-let lastChecked,
-	queue = [],
-	isPlaying;
+let lastChecked;
+let queue = [];
+let isPlaying;
 
 const
 widget = document.getElementById("widget"),
 imageElem = document.getElementById("alert-image"),
 videoElem = document.getElementById("alert-video"),
 audioElem = document.getElementById("alert-sound"),
-messageElem = document.getElementById("alert-message"),
+messageNodes = document.getElementById("alert-message").childNodes,
 userMsgElem = document.getElementById("alert-user-message");
 
 (async function alertsLoop() {
@@ -18,26 +18,16 @@ userMsgElem = document.getElementById("alert-user-message");
 	lastChecked = Date.now();
 	queue.push(...updates);
 	if (queue.length && !isPlaying) {
-		const
-		data = queue.shift(),
-		currency = new Intl.NumberFormat("ru", {
-			style: "currency",
-			currency: data.currency
-		});
+		const data = queue.shift();
 
-		messageElem.innerHTML = settings.template
-			.replace("{name}",
-				`<span class=highlight>${data.username}</span>`)
-			.replace("{amount}",
-				`<span class=highlight>${currency.format(data.amount)}</span>`);
-		userMsgElem.textContent = data.message;
+		data.message.forEach((text, i) => messageNodes[i].textContent = text);
+		userMsgElem.textContent = data.userMessage;
 
 		if (settings.sound) {
 			audioElem.src = settings.path + settings.sound;
 			audioElem.volume = settings.volume;
 			audioElem.play();
 		}
-
 		if (settings.imageType == "video") {
 			videoElem.src = settings.path + settings.image;
 			videoElem.style.display = "";

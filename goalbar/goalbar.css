@@ -15,7 +15,7 @@ div {
 	z-index: 0;
 }
 
-#current-progress {
+#progress-bar {
 	position: absolute;
 	inset: 0;
 	min-width: 10px;
@@ -29,8 +29,4 @@ div {
 #goal-name,
 #goal-amount {
 	font-weight: bold;
-}
-
-#goal-amount::before {
-	content: "Цель: ";
 }

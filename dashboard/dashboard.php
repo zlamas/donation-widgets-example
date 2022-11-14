@@ -23,19 +23,11 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php
-				$fmt = numfmt_create('ru_RU', NumberFormatter::CURRENCY);
-				$currency = SETTINGS['currency'];
-				$donations = getDonations();
-
-				while ($donation = array_pop($donations)) {
-					$amount = numfmt_format_currency($fmt, $donation['amount'], $currency);
-					$date = date('d.m.Y H:i:s', $donation['time'] / 1000);
-			?>
+			<?php foreach (array_reverse(getDonations()) as $donation) { ?>
 				<tr>
 					<td><?= $donation['username'] ?></td>
-					<td><?= $amount ?></td>
-					<td><?= $date ?></td>
+					<td><?= formatCurrency($donation['amount']) ?></td>
+					<td><?= date('d.m.Y H:i:s', $donation['time'] / 1000) ?></td>
 					<td><?= $donation['message'] ?></td>
 				</tr>
 			<?php } ?>

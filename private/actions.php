@@ -1,36 +1,50 @@
 <?php
 
-define('SETTINGS', parse_ini_file('settings.ini', true));
 define('TEST_DONATION_LOCK', __DIR__ . '/test_donation_file');
 
 require 'function.php';
 
 if (file_exists(TEST_DONATION_LOCK)
-	&& time() > filemtime(TEST_DONATION_LOCK) + SETTINGS['lockFileMaxAge'])
+	&& time() - filemtime(TEST_DONATION_LOCK) > SETTINGS['lockFileMaxAge'])
 	unlink(TEST_DONATION_LOCK);
 
 function getGoalBarData() {
 	$data = SETTINGS['goalbar'];
-	$donations = getDonations($data['from']);
-	unset($data['from']);
+	$donations = getDonations(SETTINGS['gb_from']);
+	$amount = array_sum(array_column($donations, 'amount'));
 
-	$data['amount'] = array_sum(array_column($donations, 'amount'));
-	$data['currency'] = SETTINGS['currency'];
+	$data['width'] = round($amount / $data['total'] * 100, 2) . '%';
+	$data['amount'] = formatCurrency($amount);
+	$data['total'] = 'Цель: ' . formatCurrency($data['total']);
 
 	echo encodeJSON($data);
 }
 
 function getAlertBoxData() {
-	$updates = getDonations($_GET['from']);
+	$donations = getDonations($_GET['from']);
+	$template = preg_split("/({[an]})/", SETTINGS['ab_template'], -1, PREG_SPLIT_DELIM_CAPTURE);
+	$updates = [];
 
 	if (file_exists(TEST_DONATION_LOCK)) {
-		$updates[] = [
-			'username' => 'Test Subject',
-			'message' => 'This is a test alert message',
-			'amount' => rand(0, 100000) / 100,
-			'currency' => SETTINGS['currency']
+		$donations[] = [
+			amount => rand(0, 100000) / 100,
+			currency => SETTINGS['currency'],
+			username => 'Test Subject',
+			message => 'This is a test alert message'
 		];
 		unlink(TEST_DONATION_LOCK);
+	}
+
+	foreach ($donations as $donation) {
+		$message = str_replace(
+			['{a}', '{n}'],
+			[formatCurrency($donation['amount'], $donation['currency']), $donation['username']],
+			$template
+		);
+		$updates[] = [
+			'message' => $message,
+			'userMessage' => $donation['message']
+		];
 	}
 
 	echo encodeJSON([

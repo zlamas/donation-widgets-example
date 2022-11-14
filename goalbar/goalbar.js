@@ -3,17 +3,11 @@ const [ progressBar, goalName, currentAmount, goalAmount ] =
 	document.getElementById("widget").children;
 
 (async function updateBar() {
-	const
-	data = await (await fetch('?action=update')).json(),
-	currency = new Intl.NumberFormat("ru", {
-		style: "currency",
-		currency: data.currency
-	});
-
-	progressBar.style.width = `${data.amount / data.total * 100}%`;
+	const data = await (await fetch('?action=update')).json();
+	progressBar.style.width = data.width;
 	goalName.textContent = data.title;
-	currentAmount.textContent = currency.format(data.amount);
-	goalAmount.textContent = currency.format(data.total);
+	currentAmount.textContent = data.amount;
+	goalAmount.textContent = data.total;
 	setTimeout(updateBar, data.pollingInterval * 1000);
 })();
 }
