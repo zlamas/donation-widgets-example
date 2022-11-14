@@ -1,6 +1,8 @@
 <?php
 
 define('TEST_DONATION_LOCK', __DIR__ . '/test_donation_file');
+define('MAX_USERNAME_LENGTH', 25);
+define('MAX_MESSAGE_LENGTH', 200);
 
 require 'function.php';
 
@@ -55,6 +57,12 @@ function getAlertBoxData() {
 
 function pushDonation($data) {
 	$data['time'] = (int)(microtime(true) * 1000);
+	$data['username'] = htmlspecialchars(
+		substr($data['username'], 0, MAX_USERNAME_LENGTH)
+	);
+	$data['message'] = htmlspecialchars(
+		substr($data['message'], 0, MAX_MESSAGE_LENGTH)
+	);
 
 	if ($data['currency'] != SETTINGS['currency']) {
 		$data['amount'] = convertCurrency(
