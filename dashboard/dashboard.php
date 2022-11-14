@@ -39,7 +39,7 @@
 			<label class="required" for="donation-name">Имя</label>
 			<input id="donation-name" name="username" value="Зритель" maxlength="25" required>
 			<label for="donation-message">Сообщение</label>
-			<textarea id="donation-message" name="message" rows="3"></textarea>
+			<textarea id="donation-message" name="message" rows="3" maxlength="200"></textarea>
 			<label class="required" for="donation-amount">Размер</label>
 			<input id="donation-amount" name="amount" type="number" min="0.01" step="0.01" required>
 			<select name="currency">
