@@ -8,7 +8,7 @@ function encodeJSON($data) {
 	return json_encode($data, JSON_UNESCAPED_UNICODE);
 }
 
-function getDonations($from=-1) {
+function getDonations($from = -1) {
 	$file = fopen(DONATIONS_FILE, 'r');
 	$donations = [];
 
