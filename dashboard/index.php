@@ -2,9 +2,8 @@
 
 require '../private/actions.php';
 
-$action = $_REQUEST['action'] ?? null;
-
-if (isset($action)) {
+if (isset($_REQUEST['action'])) {
+	$action = $_REQUEST['action'];
 	$isPost = $_SERVER['REQUEST_METHOD'] == 'POST';
 
 	if ($action === 'test-donation')

@@ -2,10 +2,12 @@
 
 require '../private/actions.php';
 
-$action = $_REQUEST['action'] ?? null;
+if (isset($_REQUEST['action'])) {
+	$action = $_REQUEST['action'];
 
-if ($action === 'update') {
-	getAlertBoxData();
+	if ($action === 'update')
+		getAlertBoxData();
+
 	exit;
 }
 

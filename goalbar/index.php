@@ -2,11 +2,13 @@
 
 require '../private/actions.php';
 
-$action = $_REQUEST['action'] ?? null;
+if (isset($_REQUEST['action'])) {
+	$action = $_REQUEST['action'];
 
-if ($action === 'update') {
-	getGoalBarData();
-	return;
+	if ($action === 'update')
+		getGoalBarData();
+
+	exit;
 }
 
 require 'goalbar.html';
