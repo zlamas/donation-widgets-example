@@ -26,7 +26,7 @@
 			<?php foreach (array_reverse(getDonations()) as $donation) { ?>
 				<tr>
 					<td><?= $donation['username'] ?></td>
-					<td><?= formatCurrency($donation['amount']) ?></td>
+					<td><?= formatCurrency($donation['amount'], $donation['currency']) ?></td>
 					<td><?= date('d.m.Y H:i:s', $donation['time'] / 1000) ?></td>
 					<td><?= $donation['message'] ?></td>
 				</tr>
