@@ -70,7 +70,6 @@ function pushDonation($data) {
 			SETTINGS['currency'],
 			$data['amount']
 		);
-
 		$data['currency'] = SETTINGS['currency'];
 	}
 
@@ -79,8 +78,4 @@ function pushDonation($data) {
 
 function pushTestDonation() {
 	touch(TEST_DONATION_LOCK);
-}
-
-function resetDonations() {
-	saveDonations([]);
 }

@@ -30,14 +30,8 @@ function saveDonation($donation) {
 	fclose($file);
 }
 
-function saveDonations($donations) {
-	file_put_contents(DONATIONS_FILE, $donations);
-}
-
-function popDonation() {
-	$donations = file(DONATIONS_FILE);
-	array_pop($donations);
-	saveDonations($donations);
+function resetDonations() {
+	file_put_contents(DONATIONS_FILE, "");
 }
 
 function formatCurrency($amount, $currency = SETTINGS['currency']) {
