@@ -1,10 +1,9 @@
 #widget {
 	display: flex;
 	position: fixed;
-	height: 100%;
-	width: 100%;
+	inset: 0;
 	flex-direction: column;
-	font: 1.5em "Open Sans", sans-serif;
+	font: 2em "Open Sans", sans-serif;
 	justify-content: space-evenly;
 	opacity: 0;
 	text-align: center;
@@ -31,12 +30,8 @@ video {
 }
 
 #alert-message {
-	font-size: 2em;
-	font-weight: bold;
-}
-
-#alert-user-message {
 	font-size: 1.5em;
+	font-weight: bold;
 }
 
 .highlight {
