@@ -5,13 +5,11 @@
 <title>Панель управления пожертвованиями</title>
 <link rel="stylesheet" href="/common/common.css">
 <link rel="stylesheet" href="dashboard.css">
-
 <div class="main">
 	<input type="radio" name="tab" id="tab-donations" class="tab" checked>
 	<label for="tab-donations">Пожертвования</label>
 	<input type="radio" name="tab" id="tab-dashboard" class="tab">
 	<label for="tab-dashboard">Управление</label>
-
 	<div class="tab-content">
 		<table class="donation-table">
 			<thead>
@@ -54,7 +52,6 @@
 			<a href="#reset-confirm">Сбросить пожертвования</a>
 		</form>
 	</div>
-
 	<form id="reset-confirm" action="#">
 		<div>
 			Действительно сбросить все пожертвования?
