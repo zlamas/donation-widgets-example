@@ -12,27 +12,29 @@ if (file_exists(TEST_DONATION_LOCK)
 
 function getGoalBarData() {
 	$data = SETTINGS['goalbar'];
-	$donations = getDonations(SETTINGS['gb_from']);
-	$amount = array_sum(array_column($donations, 'amount'));
+	$donations = getDonations($data['startDate']);
+	$amount = $data['amount'] + array_sum(array_column($donations, 'amount'));
 
 	$data['width'] = round($amount / $data['total'] * 100, 2) . '%';
 	$data['amount'] = formatCurrency($amount);
 	$data['total'] = 'Цель: ' . formatCurrency($data['total']);
 
+	unset($data['startDate']);
 	echo encodeJSON($data);
 }
 
 function getAlertBoxData() {
+	$settings = SETTINGS['alertbox'];
 	$donations = getDonations($_GET['from']);
-	$template = preg_split("/({[an]})/", SETTINGS['ab_template'], -1, PREG_SPLIT_DELIM_CAPTURE);
+	$template = preg_split("/({[an]})/", $settings['template'], -1, PREG_SPLIT_DELIM_CAPTURE);
 	$updates = [];
 
 	if (file_exists(TEST_DONATION_LOCK)) {
 		$donations[] = [
-			amount => rand(0, 100000) / 100,
-			currency => SETTINGS['currency'],
-			username => 'Test Subject',
-			message => 'This is a test alert message'
+			'amount' => rand(0, 100000) / 100,
+			'currency' => SETTINGS['currency'],
+			'username' => 'Test Subject',
+			'message' => 'This is a test alert message'
 		];
 		unlink(TEST_DONATION_LOCK);
 	}
@@ -49,8 +51,9 @@ function getAlertBoxData() {
 		];
 	}
 
+	unset($settings['template']);
 	echo encodeJSON([
-		'settings' => SETTINGS['alertbox'],
+		'settings' => $settings,
 		'updates' => $updates
 	]);
 }
