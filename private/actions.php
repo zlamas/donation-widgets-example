@@ -58,6 +58,10 @@ function getAlertBoxData() {
 	]);
 }
 
+function saveGoalBarSettings() {
+	// TODO: implement
+}
+
 function pushDonation($data) {
 	$data['time'] = (int)(microtime(true) * 1000);
 	$data['username'] = htmlspecialchars(

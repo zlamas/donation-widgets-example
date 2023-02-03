@@ -42,17 +42,20 @@ function formatCurrency($amount, $currency = SETTINGS['currency']) {
 	);
 }
 
+function getCurrencyRates() {
+	// TODO: get live currency rates
+	return [
+		'RUB' => 1,
+		'USD' => 70.04,
+		'EUR' => 76.96
+	];
+}
+
 function convertCurrency($from, $to, $amount) {
 	if ($from === $to)
 		return $amount;
 
-	// $rates = getCurrencyRates();
-	$rates = [
-		'RUB' => 1,
-		'USD' => 67.95,
-		'EUR' => 72.34
-	];
-
+	$rates = getCurrencyRates();
 	if ($rates[$from] && $rates[$to])
 		return round($rates[$from] / $rates[$to] * $amount, 2);
 

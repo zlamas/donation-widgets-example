@@ -8,11 +8,16 @@ if (isset($_REQUEST['action'])) {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if ($action === 'push-donation')
 			pushDonation($_POST);
-	} else {
-		if ($action === 'test-donation')
+	} else switch ($action) {
+		case 'test-donation':
 			pushTestDonation();
-		else if ($action === 'reset-donations')
+			break;
+		case 'reset-donations':
 			resetDonations();
+			break;
+		case 'goalbar-settings':
+			saveGoalBarSettings();
+			break;
 	}
 
 	header("Location: .");

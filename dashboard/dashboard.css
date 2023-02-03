@@ -1,9 +1,10 @@
-.main {
+body {
 	display: grid;
 	position: fixed;
 	height: 100%;
 	width: 100%;
-	background: darkgrey;
+	background: #222;
+	color: white;
 	font-family: "Open Sans", sans-serif;
 	grid-auto-rows: auto 1fr;
 	grid-template-columns: 1fr 1fr;
@@ -27,23 +28,11 @@ th {
 
 th,
 tr:nth-child(2n) {
-	background: grey;
+	background: #111;
 }
 
-td {
-	text-align: center;
-}
-
-td:last-child {
-	word-break: break-all;
-}
-
-/* ios doesn't support this yet */
-@supports (overflow-wrap: anywhere) {
-	td:last-child {
-		overflow-wrap: anywhere;
-		word-break: normal;
-	}
+tbody > tr {
+	color: lightgrey;
 }
 
 a,
@@ -53,21 +42,47 @@ button,
 select {
 	border: none;
 	border-radius: 4px;
+	color: inherit;
 	font: inherit;
 }
 
 a {
-	display: inline-block;
+	color: white;
+	cursor: default;
 	text-decoration: none;
+}
+
+a,
+input[type="number"] {
+	text-align: center;
+}
+
+input[type="number"] {
+	width: 50px;
+	appearance: textfield; /* hide spin buttons in firefox */
+	flex: 1;
+	margin-right: 8px;
 }
 
 input[type="radio"] {
 	display: none;
 }
 
+/* hide spin buttons in chrome/safari */
+input::-webkit-inner-spin-button {
+	display: none;
+}
+
+label,
+input,
+textarea {
+	align-self: center;
+}
+
 input,
 textarea {
 	min-width: 0;
+	background: #333;
 	padding: 6px;
 }
 
@@ -77,44 +92,62 @@ textarea {
 
 a,
 button {
-	margin: 4px;
+	flex: 1;
+	margin: 0 4px;
 }
 
 a,
 button,
 select {
-	background: lightgrey;
-	color: black;
-	cursor: pointer;
+	background: #444;
 	padding: 4px 8px;
 }
 
 a:hover,
 button:hover,
 select:hover {
-	background: #bbb;
+	background: dimgrey;
 }
 
 a:active,
 button:active,
 select:active {
-	background: grey;
+	background: darkgrey;
 }
 
-.tab + label {
-	background: white;
+fieldset {
+	display: grid;
+	border: 1px solid;
+	border-radius: 10px;
+	gap: 8px;
+	grid-template-columns: 1fr auto;
+	margin: auto;
+}
+
+legend {
+	font-weight: bold;
+	margin: 0 auto;
+	text-shadow: 0 0 10px black;
+}
+
+.tab-label {
 	cursor: pointer;
+	border-radius: 10px;
+	margin: 6px;
 	padding: 6px;
 	text-align: center;
 	transition: background 0.5s;
 }
 
-.tab + label:hover {
-	background: lightgrey;
+.tab-label:hover {
+	box-shadow: 0 0 5px black;
+	background: grey;
 }
 
-.tab:checked + label {
-	background: none;
+.tab:checked + .tab-label {
+	box-shadow: 0 0 5px black;
+	background: linear-gradient(grey, black);
+	font-weight: bold;
 }
 
 .tab-content {
@@ -124,46 +157,39 @@ select:active {
 	overflow: auto;
 }
 
-.tab:checked:nth-of-type(1) ~ .tab-content:nth-of-type(1),
-.tab:checked:nth-of-type(2) ~ .tab-content:nth-of-type(2) {
-	display: block;
+#tab-1:checked ~ #tab-content-1,
+#tab-2:checked ~ #tab-content-2 {
+	display: flex;
 }
 
 .donation-table {
 	width: 100%;
 	border-collapse: collapse;
+	text-align: center;
 }
 
-.donation-form {
-	display: grid;
-	max-width: 400px;
-	gap: 8px;
-	grid-template-columns: 100px 1fr 100px;
-	margin: 0 auto;
-	padding: 6px;
-	text-align: right;
+#tab-content-2 {
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
-.donation-form > label {
-	align-self: center;
+#tab-content-2 > form {
+	margin: 6px;
 }
 
-.donation-form > button {
+.amount-row {
+	display: flex;
+	justify-content: center;
+}
+
+.button-row {
+	display: flex;
 	grid-column: 1 / -1;
-}
-
-#donation-name,
-#donation-message {
-	grid-column: 2 / -1;
 }
 
 .required::after {
 	content: " *";
 	color: red;
-}
-
-.extra-controls {
-	text-align: center;
 }
 
 #reset-confirm {
@@ -173,18 +199,10 @@ select:active {
 	width: 100%;
 	animation: fade-in 0.3s;
 	background: rgba(0, 0, 0, 0.7);
+	color: #f55;
 	padding: 10px;
 }
 
 #reset-confirm:target {
 	display: flex;
-}
-
-#reset-confirm > div {
-	background: grey;
-	border-radius: 4px;
-	box-shadow: 0 0 5px;
-	margin: auto;
-	padding: 8px 12px;
-	text-align: center;
 }
