@@ -26,7 +26,12 @@ function getGoalBarData() {
 function getAlertBoxData() {
 	$settings = SETTINGS['alertbox'];
 	$donations = getDonations($_GET['from']);
-	$template = preg_split("/({[an]})/", $settings['template'], -1, PREG_SPLIT_DELIM_CAPTURE);
+	$template = preg_split(
+		'/({[an]})/',
+		$settings['template'],
+		-1,
+		PREG_SPLIT_DELIM_CAPTURE
+	);
 	$updates = [];
 
 	if (file_exists(TEST_DONATION_LOCK)) {
@@ -40,9 +45,10 @@ function getAlertBoxData() {
 	}
 
 	foreach ($donations as $donation) {
+		$amount = formatCurrency($donation['amount'], $donation['currency']);
 		$message = str_replace(
 			['{a}', '{n}'],
-			[formatCurrency($donation['amount'], $donation['currency']), $donation['username']],
+			[$amount, $donation['username']],
 			$template
 		);
 		$updates[] = [
@@ -59,6 +65,10 @@ function getAlertBoxData() {
 }
 
 function saveGoalBarSettings() {
+	// TODO: implement
+}
+
+function resetGoalBar() {
 	// TODO: implement
 }
 

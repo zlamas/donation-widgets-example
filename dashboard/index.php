@@ -15,8 +15,11 @@ if (isset($_REQUEST['action'])) {
 		case 'reset-donations':
 			resetDonations();
 			break;
-		case 'goalbar-settings':
+		case 'goalbar-save':
 			saveGoalBarSettings();
+			break;
+		case 'goalbar-reset':
+			resetGoalBar();
 			break;
 	}
 

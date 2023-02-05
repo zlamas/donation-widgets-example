@@ -54,7 +54,7 @@
 			</div>
 		</fieldset>
 	</form>
-	<form method="post" action="?action=goalbar-settings">
+	<form method="post">
 		<fieldset>
 			<legend>Виджет прогресса</legend>
 			<label for="goal-name" class="required">Название цели</label>
@@ -70,8 +70,8 @@
 				<label>₽</label>
 			</div>
 			<div class="button-row">
-				<button>Сохранить</button>
-				<button name="action" value="goalbar-reset">Сбросить</button>
+				<button formaction="?action=goalbar-save">Сохранить</button>
+				<button formaction="?action=goalbar-reset">Сбросить</button>
 			</div>
 		</fieldset>
 	</form>
