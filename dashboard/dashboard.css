@@ -101,6 +101,7 @@ button,
 select {
 	background: #444;
 	padding: 4px 8px;
+	transition: background 0.3s;
 }
 
 a:hover,
