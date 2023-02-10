@@ -1,6 +1,5 @@
 "use strict";{
-const [ progressBar, goalName, currentAmount, goalAmount ] =
-	document.getElementById("widget").children;
+const [ progressBar, goalName, currentAmount, goalAmount ] = document.body.firstChild.children;
 
 (async function updateBar() {
 	const data = await (await fetch('?action=update')).json();
