@@ -1,14 +1,8 @@
 <?php
 
-define('TEST_DONATION_LOCK', __DIR__ . '/test_donation_file');
-define('MAX_USERNAME_LENGTH', 25);
-define('MAX_MESSAGE_LENGTH', 200);
+define('TEST_DONATION_FILE', __DIR__ . '/test_donation_file');
 
 require 'function.php';
-
-if (file_exists(TEST_DONATION_LOCK)
-	&& time() - filemtime(TEST_DONATION_LOCK) > SETTINGS['lockFileMaxAge'])
-	unlink(TEST_DONATION_LOCK);
 
 function getGoalBarData() {
 	$data = SETTINGS['goalbar'];
@@ -34,14 +28,15 @@ function getAlertBoxData() {
 	);
 	$updates = [];
 
-	if (file_exists(TEST_DONATION_LOCK)) {
+	if (file_exists(TEST_DONATION_FILE)
+	&&  time() - filemtime(TEST_DONATION_FILE) < $settings['pollingInterval']) {
 		$donations[] = [
 			'amount' => rand(0, 100000) / 100,
 			'currency' => SETTINGS['currency'],
 			'username' => 'Test Subject',
 			'message' => 'This is a test alert message'
 		];
-		unlink(TEST_DONATION_LOCK);
+		unlink(TEST_DONATION_FILE);
 	}
 
 	foreach ($donations as $donation) {
@@ -75,10 +70,10 @@ function resetGoalBar() {
 function pushDonation($data) {
 	$data['time'] = (int)(microtime(true) * 1000);
 	$data['username'] = htmlspecialchars(
-		substr($data['username'], 0, MAX_USERNAME_LENGTH)
+		substr($data['username'], 0, SETTINGS['maxUserNameLength'])
 	);
 	$data['message'] = htmlspecialchars(
-		substr($data['message'], 0, MAX_MESSAGE_LENGTH)
+		substr($data['message'], 0, SETTINGS['maxMessageLength'])
 	);
 
 	if ($data['currency'] != SETTINGS['currency']) {
@@ -94,5 +89,5 @@ function pushDonation($data) {
 }
 
 function pushTestDonation() {
-	touch(TEST_DONATION_LOCK);
+	touch(TEST_DONATION_FILE);
 }
