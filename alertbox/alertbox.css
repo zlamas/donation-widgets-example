@@ -1,16 +1,18 @@
-#widget {
+body {
 	display: flex;
 	position: fixed;
 	inset: 0;
+	color: white;
 	flex-direction: column;
 	font: 2em "Open Sans", sans-serif;
 	justify-content: space-evenly;
 	opacity: 0;
 	text-align: center;
+	text-shadow: 0 0 3px black;
 	transition: opacity 1s;
 }
 
-#widget.playing {
+.playing {
 	opacity: 1;
 }
 
@@ -20,16 +22,11 @@ video {
 	max-width: 100%;
 }
 
-#alert-image-box {
+.alert-media {
 	min-height: 0;
 }
 
-#alert-text {
-	color: white;
-	text-shadow: 0 0 3px black;
-}
-
-#alert-message {
+.alert-message {
 	font-size: 1.5em;
 	font-weight: bold;
 }

@@ -2,14 +2,11 @@
 let lastChecked;
 let queue = [];
 let isPlaying;
-
-const
-widget = document.getElementById("widget"),
-imageElem = document.getElementById("alert-image"),
-videoElem = document.getElementById("alert-video"),
-audioElem = document.getElementById("alert-sound"),
-messageNodes = document.getElementById("alert-message").childNodes,
-userMsgElem = document.getElementById("alert-user-message");
+const imageElem = document.querySelector("img");
+const videoElem = document.querySelector("video");
+const audioElem = document.querySelector("audio");
+const messageNodes = document.querySelector(".alert-message").childNodes;
+const userMessageElem = document.querySelector(".alert-user-message");
 
 (async function alertsLoop() {
 	const { settings, updates } =
@@ -21,7 +18,7 @@ userMsgElem = document.getElementById("alert-user-message");
 		const data = queue.shift();
 
 		messageNodes.forEach((node, i) => node.textContent = data.message[i] || "");
-		userMsgElem.textContent = data.userMessage;
+		userMessageElem.textContent = data.userMessage;
 
 		if (settings.sound) {
 			audioElem.src = settings.path + settings.sound;
@@ -40,17 +37,17 @@ userMsgElem = document.getElementById("alert-user-message");
 			imageElem.style.display = "";
 		}
 
-		widget.className = "playing";
+		document.body.className = "playing";
 		isPlaying = true;
 
 		setTimeout(() => {
-			widget.className = "";
+			document.body.className = "";
 
 			setTimeout(() => {
 				isPlaying = false;
 				videoElem.pause();
 			}, settings.delay * 1000);
-		}, settings.time * 1000);
+		}, settings.duration * 1000);
 	}
 	setTimeout(alertsLoop, settings.pollingInterval * 1000);
 })();
