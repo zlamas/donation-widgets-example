@@ -4,12 +4,12 @@ define('TEST_DONATION_FILE', __DIR__ . '/test_donation_file');
 
 require 'function.php';
 
-function getGoalBarData() {
+function updateGoalBar() {
 	$data = SETTINGS['goalbar'];
 	$donations = getDonations($data['startDate']);
 	$amount = $data['amount'] + array_sum(array_column($donations, 'amount'));
 
-	$data['width'] = round($amount / $data['total'] * 100, 2) . '%';
+	$data['percentage'] = round($amount / $data['total'] * 100, 2) . '%';
 	$data['amount'] = formatCurrency($amount);
 	$data['total'] = 'Цель: ' . formatCurrency($data['total']);
 
@@ -17,7 +17,7 @@ function getGoalBarData() {
 	echo encodeJSON($data);
 }
 
-function getAlertBoxData() {
+function updateAlertBox() {
 	$settings = SETTINGS['alertbox'];
 	$donations = getDonations($_GET['from']);
 	$template = preg_split(

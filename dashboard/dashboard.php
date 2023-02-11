@@ -41,7 +41,7 @@
 			<label for="donation-message">Сообщение</label>
 			<textarea id="donation-message" name="message" rows="3" maxlength="200"></textarea>
 			<label for="donation-amount" class="required">Размер</label>
-			<div class="amount-row">
+			<div class="input-row">
 				<input id="donation-amount" name="amount" type="number" min="0.01" step="0.01" required>
 				<select name="currency">
 					<option value="RUB">₽ (RUB)</option>
@@ -60,12 +60,12 @@
 			<label for="goal-name" class="required">Название цели</label>
 			<input id="goal-name" name="goalname" maxlength="30" value="<?= SETTINGS['goalbar']['title'] ?>" required>
 			<label for="starting-amount">Начальный размер</label>
-			<div class="amount-row">
+			<div class="input-row">
 				<input id="starting-amount" name="amount" type="number" min="0" step="0.01" value="<?= SETTINGS['goalbar']['amount'] ?>">
 				<label>₽</label>
 			</div>
 			<label for="goal-amount" class="required">Цель</label>
-			<div class="amount-row">
+			<div class="input-row">
 				<input id="goal-amount" name="total" type="number" min="0.01" step="0.01" value="<?= SETTINGS['goalbar']['total'] ?>" required>
 				<label>₽</label>
 			</div>

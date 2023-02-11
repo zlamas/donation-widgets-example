@@ -3,7 +3,7 @@ const [ progressBar, goalName, currentAmount, goalAmount ] = document.body.first
 
 (async function updateBar() {
 	const data = await (await fetch('?action=update')).json();
-	progressBar.style.width = data.width;
+	progressBar.style.width = data.percentage;
 	goalName.textContent = data.title;
 	currentAmount.textContent = data.amount;
 	goalAmount.textContent = data.total;

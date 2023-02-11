@@ -25,7 +25,7 @@ const userMessageElem = document.querySelector(".alert-user-message");
 			audioElem.volume = settings.volume;
 			audioElem.play();
 		}
-		if (settings.imageType == "video") {
+		if (settings.isVideo) {
 			videoElem.src = settings.path + settings.image;
 			videoElem.style.display = "";
 			imageElem.style.display = "none";
