@@ -165,12 +165,14 @@ legend {
 
 .donation-table {
 	width: 100%;
+	align-self: start;
 	border-collapse: collapse;
 	text-align: center;
 }
 
 #tab-content-2 {
 	flex-wrap: wrap;
+	align-content: start;
 	justify-content: center;
 }
 
