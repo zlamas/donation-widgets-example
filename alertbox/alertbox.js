@@ -1,24 +1,31 @@
-"use strict";{
+(widget => {
+"use strict";
 let lastChecked;
 let queue = [];
 let isPlaying;
-const imageElem = document.querySelector("img");
-const videoElem = document.querySelector("video");
-const audioElem = document.querySelector("audio");
-const messageNodes = document.querySelector(".alert-message").childNodes;
-const userMessageElem = document.querySelector(".alert-user-message");
+let imageElem = widget.querySelector("img");
+let videoElem = widget.querySelector("video");
+let audioElem = widget.querySelector("audio");
+let messageElements = widget.querySelectorAll(".alert-message span");
+let userMessage = widget.querySelector(".alert-user-message");
 
-(async function alertsLoop() {
-	const { settings, updates } =
-		await (await fetch(`?action=update&from=${lastChecked}`)).json();
+(function alertsLoop() {
+	fetch(`?action=update&from=${lastChecked}`)
+	.then(response => response.json())
+	.then(data => {
+		let { settings, updates } = data;
 
-	lastChecked = Date.now();
-	queue.push(...updates);
-	if (queue.length && !isPlaying) {
-		const data = queue.shift();
+		lastChecked = Date.now();
+		queue.push(...updates);
+		setTimeout(alertsLoop, settings.pollingInterval * 1000);
 
-		messageNodes.forEach((node, i) => node.textContent = data.message[i] || "");
-		userMessageElem.textContent = data.userMessage;
+		if (!queue.length || isPlaying)
+			return;
+
+		let alertData = queue.shift();
+
+		messageElements.forEach((el, i) => el.textContent = alertData.message[i] || "");
+		userMessage.textContent = alertData.userMessage;
 
 		if (settings.sound) {
 			audioElem.src = settings.path + settings.sound;
@@ -37,18 +44,17 @@ const userMessageElem = document.querySelector(".alert-user-message");
 			imageElem.style.display = "";
 		}
 
-		document.body.className = "playing";
+		widget.className = "playing";
 		isPlaying = true;
 
 		setTimeout(() => {
-			document.body.className = "";
+			widget.className = "";
 
 			setTimeout(() => {
 				isPlaying = false;
 				videoElem.pause();
 			}, settings.delay * 1000);
 		}, settings.duration * 1000);
-	}
-	setTimeout(alertsLoop, settings.pollingInterval * 1000);
+	});
 })();
-}
+})(document.body)

@@ -5,7 +5,7 @@
 	align-items: center;
 	background: linear-gradient(white, lightgray);
 	box-shadow: 0 0 3px;
-	border-radius: 2.5rem;
+	border-radius: 9em;
 	font: 1.5em "Open Sans", sans-serif;
 	gap: 8px;
 	margin: 8px;
@@ -13,7 +13,6 @@
 	padding: 0 16px;
 	z-index: -1;
 }
-
 .progress-bar {
 	position: absolute;
 	inset: 0;
@@ -22,18 +21,15 @@
 	transition: width 2s ease-in-out;
 	z-index: -1;
 }
-
 .goal-name,
 .goal-amount {
 	flex: 1;
 	font-weight: bold;
 }
-
 .goal-amount {
 	text-align: right;
 }
-
-@media (max-width: 639px) {
+@media (max-width: 640px) {
 	.widget {
 		font-size: 1em;
 	}

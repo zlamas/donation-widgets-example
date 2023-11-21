@@ -2,8 +2,8 @@
 
 require '../private/actions.php';
 
-if (isset($_REQUEST['action'])) {
-	$action = $_REQUEST['action'];
+if (isset($_GET['action'])) {
+	$action = $_GET['action'];
 
 	if ($action === 'update')
 		updateAlertBox();
