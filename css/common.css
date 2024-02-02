@@ -2,21 +2,18 @@
 	font-display: swap;
 	font-family: "Open Sans";
 	font-weight: 400;
-	src: url(OpenSans-Regular.woff2);
+	src: url(/fonts/OpenSans-Regular.woff2);
 }
-
 @font-face {
 	font-display: swap;
 	font-family: "Open Sans";
 	font-weight: 700;
-	src: url(OpenSans-Bold.woff2);
+	src: url(/fonts/OpenSans-Bold.woff2);
 }
-
 body {
 	margin: 0;
 	-webkit-text-size-adjust: none;
 }
-
 *, ::before, ::after {
 	box-sizing: border-box;
 }

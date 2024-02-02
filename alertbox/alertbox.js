@@ -1,60 +1,64 @@
-(widget => {
+(() => {
 "use strict";
 let lastChecked;
 let queue = [];
 let isPlaying;
+let widget = document.querySelector(".alertbox");
 let imageElem = widget.querySelector("img");
 let videoElem = widget.querySelector("video");
 let audioElem = widget.querySelector("audio");
-let messageElements = widget.querySelectorAll(".alert-message span");
-let userMessage = widget.querySelector(".alert-user-message");
+let titleElems = widget.querySelectorAll(".alert-title span");
+let userMessage = widget.querySelector(".alert-message");
 
 (function alertsLoop() {
-	fetch(`?action=update&from=${lastChecked}`)
+	fetch(`../?action=alertbox-update&from=${lastChecked}`)
 	.then(response => response.json())
 	.then(data => {
-		let { settings, updates } = data;
-
 		lastChecked = Date.now();
-		queue.push(...updates);
-		setTimeout(alertsLoop, settings.pollingInterval * 1000);
+		setTimeout(alertsLoop, data.pollingInterval * 1000);
+
+		if (data.alerts)
+			queue.push(...data.alerts);
 
 		if (!queue.length || isPlaying)
 			return;
 
-		let alertData = queue.shift();
+		let curentAlert = queue.shift();
 
-		messageElements.forEach((el, i) => el.textContent = alertData.message[i] || "");
-		userMessage.textContent = alertData.userMessage;
+		titleElems.forEach((el, i) => el.textContent = curentAlert.title[i] || "");
+		userMessage.textContent = curentAlert.message;
 
-		if (settings.sound) {
-			audioElem.src = settings.path + settings.sound;
-			audioElem.volume = settings.volume;
+		if (data.sound) {
+			audioElem.src = data.path + data.sound;
+			audioElem.volume = data.volume;
 			audioElem.play();
 		}
-		if (settings.isVideo) {
-			videoElem.src = settings.path + settings.image;
+		if (data.isVideo) {
+			videoElem.src = data.path + data.image;
 			videoElem.style.display = "";
 			imageElem.style.display = "none";
-			videoElem.muted = settings.sound;
+			videoElem.muted = data.sound;
 			videoElem.play();
 		} else {
-			imageElem.src = settings.path + settings.image;
+			imageElem.src = data.path + data.image;
 			videoElem.style.display = "none";
 			imageElem.style.display = "";
 		}
 
-		widget.className = "playing";
+		widget.classList.add("playing");
 		isPlaying = true;
 
 		setTimeout(() => {
-			widget.className = "";
+			widget.classList.remove("playing");
 
 			setTimeout(() => {
 				isPlaying = false;
 				videoElem.pause();
-			}, settings.delay * 1000);
-		}, settings.duration * 1000);
+			}, data.delay * 1000);
+		}, data.duration * 1000);
+	}).catch(error => {
+		console.error(error);
+		setTimeout(alertsLoop, 15000);
 	});
 })();
-})(document.body)
+})()

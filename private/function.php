@@ -1,27 +1,54 @@
 <?php
 
-define('SETTINGS', parse_ini_file('settings.ini', true));
-define('DONATIONS_FILE', __DIR__ . '/donations.csv');
+define('SETTINGS', parse_ini_file('settings.ini', false, INI_SCANNER_TYPED));
 define('TABLE_KEYS', ['time','username','amount','currency','message']);
 
-function encodeJSON($data) {
+define('USER_DIR', __DIR__.'/../user/');
+define('DONATIONS_FILE', USER_DIR.'donations.csv');
+define('TEST_DONATION_FILE', USER_DIR.'show_test_donation');
+define('USER_SETTINGS', get_settings('user'));
+define('MEDIA_PATH', '../user/media/');
+
+function get_timestamp() {
+	return (int)(microtime(true) * 1000);
+}
+
+function user_get_file($name) {
+	return file_get_contents(USER_DIR.$name);
+}
+
+function user_save_file($name, $data) {
+	file_put_contents(USER_DIR.$name, $data);
+}
+
+function from_json($data) {
+	return json_decode($data, true) ?? [];
+}
+
+function to_json($data) {
 	return json_encode($data, JSON_UNESCAPED_UNICODE);
 }
 
-function getDonations($from = -1) {
+function get_settings($name) {
+	return from_json(user_get_file($name.'.json'));
+}
+
+function save_settings($name, $settings) {
+	user_save_file($name.'.json', to_json($settings));
+}
+
+function get_donations($from = -1) {
 	$file = fopen(DONATIONS_FILE, 'r');
-	$donations = [];
 
 	while (($data = fgetcsv($file, 1000)) !== false)
 		if ($data[0] > $from)
 			$donations[] = array_combine(TABLE_KEYS, $data);
 
 	fclose($file);
-	return $donations;
+	return $donations ?? [];
 }
 
-function saveDonation($donation) {
-	$line = [];
+function save_donation($donation) {
 	foreach (TABLE_KEYS as $key)
 		$line[] = $donation[$key];
 
@@ -30,11 +57,7 @@ function saveDonation($donation) {
 	fclose($file);
 }
 
-function resetDonations() {
-	file_put_contents(DONATIONS_FILE, "");
-}
-
-function formatCurrency($amount, $currency = SETTINGS['currency']) {
+function format_currency($amount, $currency = USER_SETTINGS['currency']) {
 	return numfmt_format_currency(
 		numfmt_create('ru_RU', NumberFormatter::CURRENCY),
 		$amount,
@@ -42,20 +65,20 @@ function formatCurrency($amount, $currency = SETTINGS['currency']) {
 	);
 }
 
-function getCurrencyRates() {
+function get_currency_rates() {
 	// TODO: get live currency rates
 	return [
 		'RUB' => 1,
-		'USD' => 70.04,
-		'EUR' => 76.96
+		'USD' => 80,
+		'EUR' => 90
 	];
 }
 
-function convertCurrency($from, $to, $amount) {
+function convert_currency($from, $to, $amount) {
 	if ($from === $to)
 		return $amount;
 
-	$rates = getCurrencyRates();
+	$rates = get_currency_rates();
 	if ($rates[$from] && $rates[$to])
 		return round($rates[$from] / $rates[$to] * $amount, 2);
 

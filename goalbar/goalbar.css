@@ -1,4 +1,4 @@
-.widget {
+.goalbar {
 	display: flex;
 	position: relative;
 	min-height: 3rem;
@@ -13,7 +13,7 @@
 	padding: 0 16px;
 	z-index: -1;
 }
-.progress-bar {
+.goal-progress {
 	position: absolute;
 	inset: 0;
 	background: linear-gradient(#ffd280, orange);
@@ -30,7 +30,7 @@
 	text-align: right;
 }
 @media (max-width: 640px) {
-	.widget {
+	.goalbar {
 		font-size: 1em;
 	}
 }

@@ -1,4 +1,4 @@
-body {
+.alertbox {
 	display: flex;
 	position: fixed;
 	inset: 0;
@@ -12,23 +12,22 @@ body {
 	text-shadow: 0 0 3px black;
 	transition: opacity 1s;
 }
-img,
-video {
-	display: block;
-	width: 100%;
-	height: 100%;
+.playing {
+	opacity: 1;
 }
 .alert-media {
 	min-height: 0;
 }
-.alert-message {
+.alert-image {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.alert-title {
 	font-size: 1.5em;
 	font-weight: bold;
 	margin-top: 1rem;
 }
 .highlight {
 	color: orange;
-}
-.playing {
-	opacity: 1;
 }
