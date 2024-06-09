@@ -20,10 +20,9 @@ let isPlaying;
 		if (data.alerts) queue.push(...data.alerts);
 		if (!queue.length || isPlaying) return;
 
-		let currentAlert = queue.shift();
-
-		titleElems.forEach((el, i) => el.textContent = currentAlert.title[i] || '');
-		userMessage.textContent = currentAlert.message;
+		let { title, message } = queue.shift();
+		titleElems.forEach((el, i) => el.textContent = title[i] || '');
+		userMessage.textContent = message;
 
 		if (data.sound) {
 			audioElem.src = data.path + data.sound;
@@ -48,7 +47,6 @@ let isPlaying;
 
 		setTimeout(() => {
 			widget.classList.remove('playing');
-
 			setTimeout(() => {
 				isPlaying = false;
 				videoElem.pause();
