@@ -4,6 +4,7 @@ require '../private/function.php';
 
 $alertbox = get_settings('alertbox');
 $goalbar = get_settings('goalbar');
+$tab = $_GET['tab'];
 
 ?>
 <!doctype html>
@@ -14,10 +15,10 @@ $goalbar = get_settings('goalbar');
 <link rel="stylesheet" href="/css/common.css">
 <link rel="stylesheet" href="dashboard.css">
 
-<input type="radio" name="tab" id="tab-1" class="tab-radio" checked>
-<label class="tab-label" for="tab-1">Пожертвования</label>
-<div id="tab-content-1" class="tab-content">
-	<table class="donation-table">
+<input type="radio" name="tab" id="tab-1" class="hidden-toggle" checked>
+<label class="btn btn-tab" for="tab-1">Пожертвования</label>
+<div class="tab">
+	<table>
 		<thead>
 			<tr>
 				<th>Имя</th>
@@ -37,27 +38,27 @@ $goalbar = get_settings('goalbar');
 	</table>
 </div>
 
-<input type="radio" name="tab" id="tab-2" class="tab-radio">
-<label class="tab-label" for="tab-2">Управление</label>
-<div id="tab-content-2" class="tab-content tab-control-panel">
+<input type="radio" name="tab" id="tab-2" class="hidden-toggle" <?php if ($tab == 2) echo 'checked' ?>>
+<label class="btn btn-tab" for="tab-2">Управление</label>
+<div class="tab tab-control">
 	<form method="post" action="..">
 		<fieldset class="control-block">
 			<legend class="control-title">Добавить пожертвование</legend>
 			<label for="donation-name" class="required">Имя</label>
-			<input id="donation-name" name="username" value="Зритель" maxlength="25" required>
+			<input id="donation-name" class="field" name="username" value="Зритель" maxlength="25" required>
 			<label for="donation-message">Сообщение</label>
-			<textarea id="donation-message" name="message" rows="3" maxlength="200"></textarea>
+			<textarea id="donation-message" class="field" name="message" rows="3" maxlength="200"></textarea>
 			<label for="donation-amount" class="required">Размер</label>
-			<div class="input-field">
-				<input id="donation-amount" name="amount" type="number" min="0.01" step="0.01" required>
-				<select name="currency">
+			<div class="row">
+				<input id="donation-amount" class="field" name="amount" type="number" inputmode="decimal" min="0.01" step="0.01" required>
+				<select class="field" name="currency">
 					<option value="RUB">₽ (RUB)</option>
 					<option value="USD">$ (USD)</option>
 					<option value="EUR">€ (EUR)</option>
 				</select>
 			</div>
-			<div class="form-row">
-				<button class="button" name="action" value="push-donation">Отправить</button>
+			<div class="row form-row">
+				<button class="btn btn-primary" name="action" value="push-donation">Добавить</button>
 			</div>
 		</fieldset>
 	</form>
@@ -67,22 +68,23 @@ $goalbar = get_settings('goalbar');
 				<a class="widget-link" target="_blank" href="../alertbox" title="Открыть виджет в новой вкладке">Оповещения <img src="../img/link.svg" alt></a>
 			</legend>
 			<label for="title">Заголовок</label>
-			<input id="title" name="title" maxlength="30" value="<?= $alertbox['title'] ?>">
+			<input id="title" class="field" name="title" maxlength="30" value="<?= $alertbox['title'] ?>">
 			<div class="form-row small-text">{n} — имя донора<br>{a} — сумма пожертвования</div>
 			<label for="volume">Громкость</label>
-			<input id="volume" name="volume" type="range" max="1" step="0.01" value="<?= $alertbox['volume'] ?>">
+			<input id="volume" class="field" name="volume" type="range" max="1" step="0.01" value="<?= $alertbox['volume'] ?>">
 			<label for="duration">Длительность</label>
-			<div class="input-field">
-				<input id="duration" name="duration" type="number" min="1" max="60" step="0.5" value="<?= $alertbox['duration'] ?>">
-				<label>сек.</label>
+			<div class="row">
+				<input id="duration" class="field" name="duration" type="number" inputmode="decimal" min="1" max="60" step="0.1" value="<?= $alertbox['duration'] ?>">
+				<label for="duration">сек.</label>
 			</div>
 			<label for="delay">Задержка</label>
-			<div class="input-field">
-				<input id="delay" name="delay" type="number" min="0" max="60" step="0.5" value="<?= $alertbox['delay'] ?>">
-				<label>сек.</label>
+			<div class="row">
+				<input id="delay" class="field" name="delay" type="number" inputmode="decimal" min="0" max="60" step="0.1" value="<?= $alertbox['delay'] ?>">
+				<label for="delay">сек.</label>
 			</div>
-			<div class="form-row">
-				<button class="button" name="action" value="alertbox-save">Сохранить</button>
+			<div class="row form-row">
+				<button class="btn btn-primary" name="action" value="alertbox-save">Сохранить</button>
+				<button class="btn" name="action" value="test-donation">Тестовое оповещение</button>
 			</div>
 		</fieldset>
 	</form>
@@ -92,41 +94,38 @@ $goalbar = get_settings('goalbar');
 				<a class="widget-link" target="_blank" href="../goalbar" title="Открыть виджет в новой вкладке">Полоса прогресса <img src="../img/link.svg" alt></a>
 			</legend>
 			<label for="goal-name" class="required">Название цели</label>
-			<input id="goal-name" name="title" maxlength="30" value="<?= $goalbar['title'] ?>" required>
+			<input id="goal-name" class="field" name="title" maxlength="30" value="<?= $goalbar['title'] ?>" required>
 			<label for="start-amount">Начальный размер</label>
-			<div class="input-field">
-				<input id="start-amount" name="amount" type="number" min="0" step="0.01" value="<?= $goalbar['amount'] ?>">
-				<label>₽</label>
+			<div class="row">
+				<input id="start-amount" class="field" name="amount" type="number" inputmode="decimal" min="0" step="0.01" value="<?= $goalbar['amount'] ?>">
+				<label for="start-amount">₽</label>
 			</div>
 			<label for="goal-amount" class="required">Цель</label>
-			<div class="input-field">
-				<input id="goal-amount" name="total" type="number" min="0.01" step="0.01" value="<?= $goalbar['total'] ?>" required>
-				<label>₽</label>
+			<div class="row">
+				<input id="goal-amount" class="field" name="total" type="number" inputmode="decimal" min="0.01" step="0.01" value="<?= $goalbar['total'] ?>" required>
+				<label for="goal-amount">₽</label>
 			</div>
-			<div class="form-row">
-				<button class="button" name="action" value="goalbar-save">Сохранить</button>
-				<button class="button" name="action" value="goalbar-reset">Сбросить прогресс</button>
-			</div>
-		</fieldset>
-	</form>
-	<form method="post" action="..">
-		<fieldset class="control-block">
-			<legend class="control-title">Другие настройки</legend>
-			<div class="form-row">
-				<button class="button" name="action" value="test-donation">Тестовое оповещение</button>
-			</div>
-			<div class="form-row">
-				<a class="button button-red" href="#reset-confirm">Сбросить пожертвования</a>
+			<div class="row form-row">
+				<button class="btn btn-primary" name="action" value="goalbar-save">Сохранить</button>
+				<button class="btn" name="action" value="goalbar-reset">Сбросить прогресс</button>
 			</div>
 		</fieldset>
 	</form>
+	<fieldset class="control-block">
+		<legend class="control-title">Другие настройки</legend>
+		<div class="row form-row">
+			<label class="btn btn-danger" for="dialog-toggle">Сбросить пожертвования</label>
+		</div>
+	</fieldset>
 </div>
-<form method="post" action=".." id="reset-confirm" class="reset-confirm">
+
+<input type="checkbox" id="dialog-toggle" class="hidden-toggle">
+<form method="post" action=".." class="dialog">
 	<fieldset class="control-block">
 		<legend class="control-title">Cбросить ВСЕ пожертвования?</legend>
-		<div class="form-row">
-			<button class="button button-red" name="action" value="reset-donations">Сбросить</button>
-			<a class="button" href="#">Отменить</a>
+		<div class="row form-row">
+			<button class="btn btn-danger" name="action" value="reset-donations">Сбросить</button>
+			<label class="btn" for="dialog-toggle">Отменить</label>
 		</div>
 	</fieldset>
 </form>

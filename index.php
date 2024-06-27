@@ -2,9 +2,12 @@
 
 require 'private/actions.php';
 
+$location = 'dashboard/';
+
 if (isset($_POST['action'])) {
 	$action = $_POST['action'];
 	unset($_POST['action']);
+	$location .= '?tab=2';
 
 	switch ($action) {
 	case 'push-donation':
@@ -41,4 +44,4 @@ if (isset($_POST['action'])) {
 	exit;
 }
 
-header("Location: dashboard/");
+header("Location: $location");
