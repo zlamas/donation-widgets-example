@@ -76,9 +76,6 @@ input[type="number"] {
 input::-webkit-inner-spin-button {
 	display: none;
 }
-label {
-	align-self: center;
-}
 textarea {
 	resize: vertical;
 }
@@ -140,6 +137,7 @@ textarea {
 }
 .control-block {
 	display: grid;
+	align-items: center;
 	background: #111;
 	border: 1px solid grey;
 	border-radius: 10px;
@@ -169,7 +167,7 @@ textarea {
 .row {
 	display: flex;
 	gap: 8px;
-	justify-content: center;
+	align-items: center;
 }
 .form-row {
 	grid-column: 1 / -1;

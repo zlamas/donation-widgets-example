@@ -73,15 +73,15 @@ $tab = $_GET['tab'];
 			<label for="volume">Громкость</label>
 			<input id="volume" class="field" name="volume" type="range" max="1" step="0.01" value="<?= $alertbox['volume'] ?>">
 			<label for="duration">Длительность</label>
-			<div class="row">
+			<label for="duration" class="row">
 				<input id="duration" class="field" name="duration" type="number" inputmode="decimal" min="1" max="60" step="0.1" value="<?= $alertbox['duration'] ?>">
-				<label for="duration">сек.</label>
-			</div>
+				<span>сек.</span>
+			</label>
 			<label for="delay">Задержка</label>
-			<div class="row">
+			<label for="delay" class="row">
 				<input id="delay" class="field" name="delay" type="number" inputmode="decimal" min="0" max="60" step="0.1" value="<?= $alertbox['delay'] ?>">
-				<label for="delay">сек.</label>
-			</div>
+				<span>сек.</span>
+			</label>
 			<div class="row form-row">
 				<button class="btn btn-primary" name="action" value="alertbox-save">Сохранить</button>
 				<button class="btn" name="action" value="test-donation">Тестовое оповещение</button>
@@ -96,15 +96,15 @@ $tab = $_GET['tab'];
 			<label for="goal-name" class="required">Название цели</label>
 			<input id="goal-name" class="field" name="title" maxlength="30" value="<?= $goalbar['title'] ?>" required>
 			<label for="start-amount">Начальный размер</label>
-			<div class="row">
+			<label for="start-amount" class="row">
 				<input id="start-amount" class="field" name="amount" type="number" inputmode="decimal" min="0" step="0.01" value="<?= $goalbar['amount'] ?>">
-				<label for="start-amount">₽</label>
-			</div>
+				<span>₽</span>
+			</label>
 			<label for="goal-amount" class="required">Цель</label>
-			<div class="row">
+			<label for="goal-amount" class="row">
 				<input id="goal-amount" class="field" name="total" type="number" inputmode="decimal" min="0.01" step="0.01" value="<?= $goalbar['total'] ?>" required>
-				<label for="goal-amount">₽</label>
-			</div>
+				<span>₽</span>
+			</label>
 			<div class="row form-row">
 				<button class="btn btn-primary" name="action" value="goalbar-save">Сохранить</button>
 				<button class="btn" name="action" value="goalbar-reset">Сбросить прогресс</button>
