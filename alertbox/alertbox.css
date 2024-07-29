@@ -1,33 +1,33 @@
 .alertbox {
-	display: flex;
-	position: fixed;
-	inset: 0;
-	align-items: center;
-	color: white;
-	flex-direction: column;
-	font: 2em "Open Sans", sans-serif;
-	justify-content: center;
-	opacity: 0;
-	text-align: center;
-	text-shadow: 0 0 3px black;
-	transition: opacity 1s;
+  display: flex;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  color: white;
+  flex-direction: column;
+  font: 2em "Open Sans", sans-serif;
+  justify-content: center;
+  opacity: 0;
+  text-align: center;
+  text-shadow: 0 0 3px black;
+  transition: opacity 1s;
 }
 .playing {
-	opacity: 1;
+  opacity: 1;
 }
 .alert-media {
-	min-height: 0;
+  min-height: 0;
 }
 .alert-image {
-	display: block;
-	width: 100%;
-	height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .alert-title {
-	font-size: 1.5em;
-	font-weight: bold;
-	margin-top: 1rem;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 1rem;
 }
 .highlight {
-	color: orange;
+  color: orange;
 }

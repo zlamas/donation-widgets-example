@@ -1,36 +1,36 @@
 .goalbar {
-	display: flex;
-	position: relative;
-	min-height: 3rem;
-	align-items: center;
-	background: linear-gradient(white, lightgray);
-	box-shadow: 0 0 3px;
-	border-radius: 9em;
-	font: 1.5em "Open Sans", sans-serif;
-	gap: 8px;
-	margin: 8px;
-	overflow: hidden;
-	padding: 0 16px;
-	z-index: -1;
+  display: flex;
+  position: relative;
+  min-height: 3rem;
+  align-items: center;
+  background: linear-gradient(white, lightgray);
+  box-shadow: 0 0 3px;
+  border-radius: 9em;
+  font: 1.5em "Open Sans", sans-serif;
+  gap: 8px;
+  margin: 8px;
+  overflow: hidden;
+  padding: 0 16px;
+  z-index: -1;
 }
 .goal-progress {
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(#ffd280, orange);
-	box-shadow: 0 0 2px;
-	transition: width 2s ease-in-out;
-	z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#ffd280, orange);
+  box-shadow: 0 0 2px;
+  transition: width 2s ease-in-out;
+  z-index: -1;
 }
 .goal-name,
 .goal-amount {
-	flex: 1;
-	font-weight: bold;
+  flex: 1;
+  font-weight: bold;
 }
 .goal-amount {
-	text-align: right;
+  text-align: right;
 }
 @media (max-width: 640px) {
-	.goalbar {
-		font-size: 1em;
-	}
+  .goalbar {
+    font-size: 1em;
+  }
 }
