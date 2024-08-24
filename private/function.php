@@ -2,8 +2,8 @@
 
 define('SETTINGS', parse_ini_file('settings.ini', false, INI_SCANNER_TYPED));
 define('TABLE_KEYS', ['time','username','amount','currency','message']);
-define('USER_SETTINGS', get_settings('user'));
 define('USER_DIR', __DIR__.'/../user/');
+define('USER_SETTINGS', get_settings('user'));
 define('DONATIONS_FILE', USER_DIR.'donations.csv');
 define('TEST_DONATION_FILE', USER_DIR.'show_test_donation');
 define('MEDIA_PATH', '../user/media/');
