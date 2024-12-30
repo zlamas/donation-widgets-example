@@ -111,7 +111,6 @@ textarea {
   background: linear-gradient(dimgrey, #333);
 }
 .tab {
-  display: none;
   background: #222;
   grid-column: 1 / -1;
   overflow: auto;
@@ -125,15 +124,15 @@ textarea {
   font-weight: bold;
   z-index: 5;
 }
-.hidden-toggle:checked + .btn-tab + .tab {
-  display: grid;
+.hidden-toggle:not(:checked) + .btn-tab + .tab {
+  display: none;
 }
 .tab-control {
-  align-items: start;
+  display: grid;
   justify-content: center;
   gap: 32px;
   grid-template-columns: repeat(auto-fill, minmax(auto, 400px));
-  padding: 16px 8px;
+  padding: 16px;
 }
 .control-block {
   display: grid;

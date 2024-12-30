@@ -111,12 +111,14 @@ $tab = $_GET['tab'];
       </div>
     </fieldset>
   </form>
-  <fieldset class="control-block">
-    <legend class="control-title">Другие настройки</legend>
-    <div class="row form-row">
-      <label class="btn btn-danger" for="dialog-toggle">Сбросить пожертвования</label>
-    </div>
-  </fieldset>
+  <div>
+    <fieldset class="control-block">
+      <legend class="control-title">Другие настройки</legend>
+      <div class="row form-row">
+        <label class="btn btn-danger" for="dialog-toggle">Сбросить пожертвования</label>
+      </div>
+    </fieldset>
+  </div>
 </div>
 
 <input type="checkbox" id="dialog-toggle" class="hidden-toggle">
